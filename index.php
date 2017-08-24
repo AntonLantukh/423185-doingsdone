@@ -121,14 +121,16 @@ $days_until_deadline = null;
                     </div>
 
                     <label class="checkbox">
-                        <!--добавить сюда аттрибут "checked", если переменная $show_complete_tasks равна единице-->
+                        <?php if ($show_complete_tasks == 1) : ?>
+                        <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox" checked>
+                        <?php endif; ?>
                         <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox">
                         <span class="checkbox__text">Показывать выполненные</span>
                     </label>
                 </div>
 
                 <table class="tasks">
-
+                    <?php if ($show_complete_tasks == 1) : ?>
                     <!--показывать следующий тег <tr/>, если переменная равна единице-->
                     <tr class="tasks__item task task--completed">
                         <td class="task__select">
@@ -150,7 +152,7 @@ $days_until_deadline = null;
                                 <span class="checkbox__text">Выполнить первое задание</span>
                             </label>
                         </td>
-
+                        <?php endif; ?>
                         <td class="task__date">
                             <!--выведите здесь дату выполнения задачи-->
                         </td>
