@@ -122,11 +122,14 @@ $days_until_deadline = floor($date_deadline - $date_current);
                     </div>
 
                     <label class="checkbox">
+                        <!--добавить сюда аттрибут "checked", если переменная $show_complete_tasks равна единице-->
                         <?php if ($show_complete_tasks == 1) : ?>
                         <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox" checked>
-                        <?php endif; ?>
+                        <span class="checkbox__text">Показывать выполненные</span>
+                        <?php elseif ($show_complete_tasks == 0) : ?>
                         <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox">
                         <span class="checkbox__text">Показывать выполненные</span>
+                      <?php endif ; ?>
                     </label>
                 </div>
 
@@ -145,6 +148,7 @@ $days_until_deadline = floor($date_deadline - $date_current);
                         <td class="task__controls">
                         </td>
                     </tr>
+                    <?php elseif ($show_complete_tasks == 0) : ?>
                     <?php if ($days_until_deadline <= 0) : ?>
                     <tr class="tasks__item task task--important">
                         <td class="task__select">
@@ -157,14 +161,14 @@ $days_until_deadline = floor($date_deadline - $date_current);
                             <!--выведите здесь дату выполнения задачи-->
                             <?php print $date_deadline ?>
                         </td>
-                      <?php elseif ($days_until_deadline >= 0) : ?>
-                      <tr class="tasks__item task">
+                        <?php elseif ($days_until_deadline >= 0) : ?>
+                        <tr class="tasks__item task">
                           <td class="task__select">
                               <label class="checkbox task__checkbox">
                                   <input class="checkbox__input visually-hidden" type="checkbox">
                                   <span class="checkbox__text">Выполнить первое задание</span>
                               </label>
-                          </td>
+                          4444</td>
                           <td class="task__date">
                               <!--выведите здесь дату выполнения задачи-->
                               <?php print $date_deadline ?>
