@@ -120,7 +120,7 @@ $days_until_deadline = null;
                         <?php if ($show_complete_tasks == 1) : ?>
                         <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox" checked>
                         <span class="checkbox__text">Показывать выполненные</span>
-                        <?php elseif ($show_complete_tasks == 0) : ?>
+                        <?php else : ?>
                         <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox">
                         <span class="checkbox__text">Показывать выполненные</span>
                         <?php endif ; ?>
@@ -141,7 +141,7 @@ $days_until_deadline = null;
                          <td class="task__controls">
                          </td>
                      </tr>
-                   <?php elseif ($show_complete_tasks == 0) : ?>
+                     <?php endif ; ?>
                      <tr class="tasks__item task">
                          <td class="task__select">
                              <label class="checkbox task__checkbox">
@@ -168,8 +168,6 @@ $days_until_deadline = null;
                              </ul>
                          </td>
                      </tr>
-                     <?php endif ; ?>
-
                  </table>
              </main>
          </div>
