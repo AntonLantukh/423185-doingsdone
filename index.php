@@ -121,7 +121,7 @@ $days_until_deadline = floor (($task_deadline_ts - $current_ts) / 86400);
                         <?php if ($show_complete_tasks == 1) : ?>
                         <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox" checked>
                         <span class="checkbox__text">Показывать выполненные</span>
-                        <?php elseif ($show_complete_tasks == 0) : ?>
+                        <?php else : ?>
                         <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox">
                         <span class="checkbox__text">Показывать выполненные</span>
                         <?php endif ; ?>
@@ -142,7 +142,7 @@ $days_until_deadline = floor (($task_deadline_ts - $current_ts) / 86400);
                          <td class="task__controls">
                          </td>
                      </tr>
-                     <?php elseif ($show_complete_tasks == 0) : ?>
+                     <?php endif ; ?>
                      <?php if ($days_until_deadline <= 0) : ?>
                      <tr class="tasks__item task task--important">
                          <td class="task__select">
@@ -156,7 +156,7 @@ $days_until_deadline = floor (($task_deadline_ts - $current_ts) / 86400);
                            <!--выведите здесь дату выполнения задачи-->
                            <?php echo $date_deadline ?>
                          </td>
-                         <?php elseif ($days_until_deadline > 0) : ?>
+                         <?php else: ?>
                          <tr class="tasks__item task">
                              <td class="task__select">
                                  <label class="checkbox task__checkbox">
@@ -167,7 +167,7 @@ $days_until_deadline = floor (($task_deadline_ts - $current_ts) / 86400);
 
                              <td class="task__date">
                                <!--выведите здесь дату выполнения задачи-->
-                               <?php echo $date_deadline ?>
+                             <?php echo $date_deadline ?>
                              </td>
                              <?php endif ; ?>
                           <td class="task__controls">
@@ -184,7 +184,6 @@ $days_until_deadline = floor (($task_deadline_ts - $current_ts) / 86400);
                              </ul>
                          </td>
                      </tr>
-                     <?php endif ; ?>
                  </table>
              </main>
          </div>
