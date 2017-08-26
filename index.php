@@ -11,6 +11,52 @@ $date_deadline = date("d.m.Y", $task_deadline_ts);
 $date_current = date("d.m.Y", $current_ts);
 // в эту переменную запишите кол-во дней до даты задачи
 $days_until_deadline = floor (($task_deadline_ts - $current_ts) / 86400);
+// Определяем массив для проектов
+$categories = ["Все", "Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
+// Определяем ассоциативные массивы
+$interview = [
+  "task" => "Собеседование в IT компании",
+  "date_complete" => "01.06.2018",
+  "project" => "Работа",
+  "status" => "Нет",
+]
+
+$test_task = [
+  "task" => "Выполнить тестовое задание",
+  "date_complete" => "25.05.2018",
+  "project" => "Работа",
+  "status" => "Нет",
+]
+
+$first_task = [
+  "task" => "Сделать задание первого раздела",
+  "date_complete" => "21.04.2018",
+  "project" => "Учеба",
+  "status" => "Да",
+]
+
+$meeting = [
+  "task" => "Встреча с другом",
+  "date_complete" => "22.04.2018",
+  "project" => "Входящие",
+  "status" => "Нет",
+]
+
+$cat_feed = [
+  "task" => "Купить корм для кота",
+  "date_complete" => "Нет",
+  "project" => "Домашние дела",
+  "status" => "Нет",
+]
+
+$pizza_order = [
+  "task" => "Заказать пиццу",
+  "date_complete" => "Нет",
+  "project" => "Домашние дела",
+  "status" => "Нет",
+]
+// Задаем двумерный массив
+$prjects = [$interview, $test_task, $first_task, $meeting, $cat_feed, $pizza_order];
 ?>
 <!DOCTYPE html>
 <html lang="en">
