@@ -19,44 +19,44 @@ $interview = [
   "date_complete" => "01.06.2018",
   "project" => "Работа",
   "status" => "Нет",
-]
+];
 
 $test_task = [
   "task" => "Выполнить тестовое задание",
   "date_complete" => "25.05.2018",
   "project" => "Работа",
   "status" => "Нет",
-]
+];
 
 $first_task = [
   "task" => "Сделать задание первого раздела",
   "date_complete" => "21.04.2018",
   "project" => "Учеба",
   "status" => "Да",
-]
+];
 
 $meeting = [
   "task" => "Встреча с другом",
   "date_complete" => "22.04.2018",
   "project" => "Входящие",
   "status" => "Нет",
-]
+];
 
 $cat_feed = [
   "task" => "Купить корм для кота",
   "date_complete" => "Нет",
   "project" => "Домашние дела",
   "status" => "Нет",
-]
+];
 
 $pizza_order = [
   "task" => "Заказать пиццу",
   "date_complete" => "Нет",
   "project" => "Домашние дела",
   "status" => "Нет",
-]
+];
 // Задаем двумерный массив
-$prjects = [$interview, $test_task, $first_task, $meeting, $cat_feed, $pizza_order];
+$projects = [$interview, $test_task, $first_task, $meeting, $cat_feed, $pizza_order];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -101,33 +101,43 @@ $prjects = [$interview, $test_task, $first_task, $meeting, $cat_feed, $pizza_ord
 
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
+                    <?php
+                    $num = count($categories);
+                    $index = 0;
+                    while ($index < $num) : ?>
+                        <li class="main-navigation__list-item main-navigation__list-item--active">
+                            <a class="main-navigation__list-item-link" href="#"><?php print $categories[$index] ?></a>
+                            <span class="main-navigation__list-item-count">46</span>
+                        </li>
+                        <?php $index++ ?>
                         <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#">Входящие</a>
+                            <a class="main-navigation__list-item-link" href="#"><?php print $categories[$index] ?></a>
                             <span class="main-navigation__list-item-count">24</span>
                         </li>
-
-                        <li class="main-navigation__list-item main-navigation__list-item--active">
-                            <a class="main-navigation__list-item-link" href="#">Учеба</a>
+                        <?php $index++ ?>
+                        <li class="main-navigation__list-item">
+                            <a class="main-navigation__list-item-link" href="#"><?php print $categories[$index] ?></a>
                             <span class="main-navigation__list-item-count">12</span>
                         </li>
-
+                        <?php $index++ ?>
                         <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#">Здоровье</a>
+                            <a class="main-navigation__list-item-link" href="#"><?php print $categories[$index] ?></a>
                             <span class="main-navigation__list-item-count">3</span>
                         </li>
-
+                        <?php $index++ ?>
                         <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#">Домашние дела</a>
+                            <a class="main-navigation__list-item-link" href="#"><?php print $categories[$index] ?></a>
                             <span class="main-navigation__list-item-count">7</span>
                         </li>
-
+                        <?php $index++ ?>
                         <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#">Авто</a>
+                            <a class="main-navigation__list-item-link" href="#"><?php print $categories[$index] ?></a>
                             <span class="main-navigation__list-item-count">0</span>
                         </li>
+                        <?php $index++ ?>
+                    <?php endwhile ?>
                     </ul>
                 </nav>
-
                 <a class="button button--transparent button--plus content__side-button" href="#">Добавить проект</a>
             </section>
 
@@ -189,8 +199,13 @@ $prjects = [$interview, $test_task, $first_task, $meeting, $cat_feed, $pizza_ord
                          </td>
                      </tr>
                      <?php endif ; ?>
-                     <?php if ($days_until_deadline <= 0) : ?>
-                     <tr class="tasks__item task task--important">
+                     <?php if ($days_until_deadline <= 0) {
+                     $importantClass = 'task--important';
+                     } else {
+                     $importantClass = '';
+                     }
+                     ?>
+                     <tr class="tasks__item task <?php print $importantClass ?>">
                          <td class="task__select">
                              <label class="checkbox task__checkbox">
                                  <input class="checkbox__input visually-hidden" type="checkbox">
@@ -202,21 +217,7 @@ $prjects = [$interview, $test_task, $first_task, $meeting, $cat_feed, $pizza_ord
                            <!--выведите здесь дату выполнения задачи-->
                            <?php echo $date_deadline ?>
                          </td>
-                         <?php else: ?>
-                         <tr class="tasks__item task">
-                             <td class="task__select">
-                                 <label class="checkbox task__checkbox">
-                                     <input class="checkbox__input visually-hidden" type="checkbox">
-                                     <span class="checkbox__text">Выполнить первое задание</span>
-                                 </label>
-                             </td>
-
-                             <td class="task__date">
-                               <!--выведите здесь дату выполнения задачи-->
-                             <?php echo $date_deadline ?>
-                             </td>
-                             <?php endif ; ?>
-                          <td class="task__controls">
+                         <td class="task__controls">
                              <button class="expand-control" type="button" name="button">Выполнить первое задание</button>
 
                              <ul class="expand-list hidden">
