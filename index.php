@@ -57,6 +57,19 @@ $projects = [
   "status" => "Нет",
 ],
 ];
+// Функция для отображения кол-ва задач в категории
+function task_count ($array_name, $string_name) {
+  $cnt = 0;
+  foreach ($array_name as $key => $value) {
+    if ($string_name == $value["project"]) {
+    $cnt++;
+    } elseif ($string_name == "Все") {
+        $cnt = count ($array_name);
+    }
+   }
+return ($cnt);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -101,8 +114,12 @@ $projects = [
 
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
-                      
-                    <?php $index = 0 ?>
+
+                    <?php
+                    $index = 0;
+                    $index_array = 0;
+                    ?>
+
                     <?php foreach ($categories as $key => $value) : ?>
 
                       <?php if ($categories[$index] == "Все") {
@@ -114,8 +131,9 @@ $projects = [
                       ?>
                         <li class="main-navigation__list-item <?php print $active_category ?>">
                             <a class="main-navigation__list-item-link" href="#"><?php print $value ?></a>
-                            <span class="main-navigation__list-item-count">46</span>
+                            <span class="main-navigation__list-item-count"><?php print(task_count ($projects, $categories[$index_array])) ?></span>
                         </li>
+                    <?php $index_array++ ?>
                     <?php endforeach ?>
                     </ul>
                 </nav>
