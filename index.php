@@ -15,42 +15,42 @@ $days_until_deadline = floor (($task_deadline_ts - $current_ts) / 86400);
 $categories = ["Все", "Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
 // Определяем ассоциативные массивы в рамках двумерного массива
 $projects = [
-$interview = [
+[
   "task" => "Собеседование в IT компании",
   "date_complete" => "01.06.2018",
   "project" => "Работа",
   "status" => "Нет",
 ],
 
-$test_task = [
+[
   "task" => "Выполнить тестовое задание",
   "date_complete" => "25.05.2018",
   "project" => "Работа",
   "status" => "Нет",
 ],
 
-$first_task = [
+[
   "task" => "Сделать задание первого раздела",
   "date_complete" => "21.04.2018",
   "project" => "Учеба",
   "status" => "Да",
 ],
 
-$meeting = [
+[
   "task" => "Встреча с другом",
   "date_complete" => "22.04.2018",
   "project" => "Входящие",
   "status" => "Нет",
 ],
 
-$cat_feed = [
+[
   "task" => "Купить корм для кота",
   "date_complete" => "Нет",
   "project" => "Домашние дела",
   "status" => "Нет",
 ],
 
-$pizza_order = [
+[
   "task" => "Заказать пиццу",
   "date_complete" => "Нет",
   "project" => "Домашние дела",
@@ -101,46 +101,24 @@ $pizza_order = [
 
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
-                    <?php
-                    $num = count($categories);
-                    $index = 0;
-                    while ($index < $num) : ?>
-                        <li class="main-navigation__list-item main-navigation__list-item--active">
-                            <a class="main-navigation__list-item-link" href="#"><?php print $categories[$index] ?></a>
+                    <?php $index = 0 ?>
+                    <?php foreach ($categories as $key => $value) : ?>
+                      <?php if ($categories[$index] == "Все") {
+                      $active_category = "main-navigation__list-item--active";
+                      $index++;
+                      } else {
+                      $active_category = " ";
+                      }
+                      ?>
+                        <li class="main-navigation__list-item <?php print $active_category ?>">
+                            <a class="main-navigation__list-item-link" href="#"><?php print $value ?></a>
                             <span class="main-navigation__list-item-count">46</span>
                         </li>
-                        <?php $index++ ?>
-                        <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#"><?php print $categories[$index] ?></a>
-                            <span class="main-navigation__list-item-count">24</span>
-                        </li>
-                        <?php $index++ ?>
-                        <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#"><?php print $categories[$index] ?></a>
-                            <span class="main-navigation__list-item-count">12</span>
-                        </li>
-                        <?php $index++ ?>
-                        <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#"><?php print $categories[$index] ?></a>
-                            <span class="main-navigation__list-item-count">3</span>
-                        </li>
-                        <?php $index++ ?>
-                        <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#"><?php print $categories[$index] ?></a>
-                            <span class="main-navigation__list-item-count">7</span>
-                        </li>
-                        <?php $index++ ?>
-                        <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#"><?php print $categories[$index] ?></a>
-                            <span class="main-navigation__list-item-count">0</span>
-                        </li>
-                        <?php $index++ ?>
-                    <?php endwhile ?>
+                    <?php endforeach ?>
                     </ul>
                 </nav>
                 <a class="button button--transparent button--plus content__side-button" href="#">Добавить проект</a>
             </section>
-
             <main class="content__main">
                 <h2 class="content__main-heading">Список задач</h2>
 
