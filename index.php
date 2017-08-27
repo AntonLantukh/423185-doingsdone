@@ -184,53 +184,46 @@ $projects = [$interview, $test_task, $first_task, $meeting, $cat_feed, $pizza_or
                     </label>
                 </div>
                 <table class="tasks">
-                     <?php if ($show_complete_tasks == 1) : ?>
-                     <!--показывать следующий тег <tr/>, если переменная равна единице-->
-                     <tr class="tasks__item task task--completed">
-                         <td class="task__select">
-                             <label class="checkbox task__checkbox">
-                                 <input class="checkbox__input visually-hidden" type="checkbox" checked>
-                                 <span class="checkbox__text">Записаться на интенсив "Базовый PHP"</span>
-                             </label>
-                         </td>
-                         <td class="task__date">10.04.2017</td>
-
-                         <td class="task__controls">
-                         </td>
-                     </tr>
-                     <?php endif ; ?>
-                     <?php if ($days_until_deadline <= 0) {
-                     $importantClass = 'task--important';
-                     } else {
-                     $importantClass = '';
+                     <?php // Учитываем условие истечение дедлайна
+                       if ($days_until_deadline <= 0) {
+                       $importantClass = "task--important";
+                       } else {
+                       $importantClass = " ";
                      }
                      ?>
-                     <tr class="tasks__item task <?php print $importantClass ?>">
+
+                     <?php foreach ($projects as $key => $value) : ?>
+                     <?php $statusTask = $value["status"];  ?>
+                         <?php if ($statusTask = "Да") {
+                         $completeTask = "task--completed";
+                         } else {
+                         $completeTask = " ";
+                       }
+                     ?>
+                     <tr class="tasks__item task <?php print $importantClass ?> <?php print $completeTask ?>">
                          <td class="task__select">
                              <label class="checkbox task__checkbox">
                                  <input class="checkbox__input visually-hidden" type="checkbox">
-                                 <span class="checkbox__text">Выполнить первое задание</span>
+                                 <span class="checkbox__text"><?php print $value["task"] ?></span>
                              </label>
                          </td>
-
                          <td class="task__date">
                            <!--выведите здесь дату выполнения задачи-->
-                           <?php echo $date_deadline ?>
+                           <?php print $value["date_complete"] ?>
                          </td>
                          <td class="task__controls">
-                             <button class="expand-control" type="button" name="button">Выполнить первое задание</button>
-
+                             <button class="expand-control" type="button" name="button"><?php print $value["task"] ?></button>
                              <ul class="expand-list hidden">
                                  <li class="expand-list__item">
                                      <a href="#">Выполнить</a>
                                  </li>
-
                                  <li class="expand-list__item">
                                      <a href="#">Удалить</a>
                                  </li>
                              </ul>
                          </td>
                      </tr>
+                   <?php endforeach ?>
                  </table>
              </main>
          </div>
