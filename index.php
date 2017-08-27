@@ -13,50 +13,50 @@ $date_current = date("d.m.Y", $current_ts);
 $days_until_deadline = floor (($task_deadline_ts - $current_ts) / 86400);
 // Определяем массив для проектов
 $categories = ["Все", "Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
-// Определяем ассоциативные массивы
+// Определяем ассоциативные массивы в рамках двумерного массива
+$projects = [
 $interview = [
   "task" => "Собеседование в IT компании",
   "date_complete" => "01.06.2018",
   "project" => "Работа",
   "status" => "Нет",
-];
+],
 
 $test_task = [
   "task" => "Выполнить тестовое задание",
   "date_complete" => "25.05.2018",
   "project" => "Работа",
   "status" => "Нет",
-];
+],
 
 $first_task = [
   "task" => "Сделать задание первого раздела",
   "date_complete" => "21.04.2018",
   "project" => "Учеба",
   "status" => "Да",
-];
+],
 
 $meeting = [
   "task" => "Встреча с другом",
   "date_complete" => "22.04.2018",
   "project" => "Входящие",
   "status" => "Нет",
-];
+],
 
 $cat_feed = [
   "task" => "Купить корм для кота",
   "date_complete" => "Нет",
   "project" => "Домашние дела",
   "status" => "Нет",
-];
+],
 
 $pizza_order = [
   "task" => "Заказать пиццу",
   "date_complete" => "Нет",
   "project" => "Домашние дела",
   "status" => "Нет",
+],
 ];
-// Задаем двумерный массив
-$projects = [$interview, $test_task, $first_task, $meeting, $cat_feed, $pizza_order];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -186,21 +186,23 @@ $projects = [$interview, $test_task, $first_task, $meeting, $cat_feed, $pizza_or
                 <table class="tasks">
                      <?php // Учитываем условие истечение дедлайна
                        if ($days_until_deadline <= 0) {
-                       $importantClass = "task--important";
+                       $important_class = "task--important";
                        } else {
-                       $importantClass = " ";
+                       $important_class = " ";
                      }
                      ?>
 
-                     <?php foreach ($projects as $key => $value) : ?>
-                     <?php $statusTask = $value["status"];  ?>
-                         <?php if ($statusTask = "Да") {
-                         $completeTask = "task--completed";
+                     <?php  // Учитываем условие выполнение задачи
+                       foreach ($projects as $key => $value) : ?>
+                       <?php $status_task = $value["status"];  ?>
+                         <?php if ($status_task == "Да") {
+                         $complete_task = "task--completed";
                          } else {
-                         $completeTask = " ";
+                         $complete_task = " ";
                        }
                      ?>
-                     <tr class="tasks__item task <?php print $importantClass ?> <?php print $completeTask ?>">
+
+                     <tr class="tasks__item task <?php print $important_class ?> <?php print $complete_task ?>">
                          <td class="task__select">
                              <label class="checkbox task__checkbox">
                                  <input class="checkbox__input visually-hidden" type="checkbox">
