@@ -101,8 +101,10 @@ $projects = [
 
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
+                      
                     <?php $index = 0 ?>
                     <?php foreach ($categories as $key => $value) : ?>
+
                       <?php if ($categories[$index] == "Все") {
                       $active_category = "main-navigation__list-item--active";
                       $index++;
