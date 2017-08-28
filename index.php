@@ -115,26 +115,28 @@ return ($cnt);
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
 
-                    <?php
+                    <?php  // Задаем индексные переменные для подсвечивания первой категории и функции по подсчету задач
                     $index = 0;
                     $index_array = 0;
                     ?>
 
                     <?php foreach ($categories as $key => $value) : ?>
-
-                      <?php if ($categories[$index] == "Все") {
+                      <?php if ($categories[$index] == "Все") {  // Подсвечивание первой категории
                       $active_category = "main-navigation__list-item--active";
                       $index++;
                       } else {
                       $active_category = " ";
                       }
                       ?>
+
                         <li class="main-navigation__list-item <?php print $active_category ?>">
                             <a class="main-navigation__list-item-link" href="#"><?php print $value ?></a>
                             <span class="main-navigation__list-item-count"><?php print(task_count ($projects, $categories[$index_array])) ?></span>
                         </li>
+
                     <?php $index_array++ ?>
                     <?php endforeach ?>
+
                     </ul>
                 </nav>
                 <a class="button button--transparent button--plus content__side-button" href="#">Добавить проект</a>
