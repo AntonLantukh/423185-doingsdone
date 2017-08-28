@@ -6,17 +6,19 @@ date_default_timezone_set('Europe/Moscow');
 // Определяем массив для проектов
 $categories = ["Все", "Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
 // Функция для расчета количества дней до дедлайна
-function deadline_count ($task_date) {
-   if ($task_date == "Нет") {
-       global $days_until_deadline;
-       $days_until_deadline = true;
-         } else {
+function is_deadline_overdue ($deadline) {
+   if (empty ($deadline)) {
+       return (false);
+       } else {
            $current_ts = strtotime('now midnight');
-           $task_deadline_ts = strtotime($task_date);
-           global $days_until_deadline;
+           $task_deadline_ts = strtotime($deadline);
            $days_until_deadline = floor (($task_deadline_ts - $current_ts) / 86400);
-           return ($days_until_deadline);
-   }
+              if ($days_until_deadline <= 0) {
+                 return (true);
+                 } else {
+                    return (false);
+                 }
+       }
 }
 // Определяем ассоциативные массивы в рамках двумерного массива
 $projects = [
@@ -50,14 +52,14 @@ $projects = [
 
 [
   "task" => "Купить корм для кота",
-  "date_complete" => "Нет",
+  "date_complete" => "",
   "project" => "Домашние дела",
   "closed" => false,
 ],
 
 [
   "task" => "Заказать пиццу",
-  "date_complete" => "Нет",
+  "date_complete" => "",
   "project" => "Домашние дела",
   "closed" => false,
 ],
@@ -172,25 +174,19 @@ $projects = [
 
                     <?php foreach ($projects as $key => $value) : ?>
 
-                         <?php if (!$value["closed"] || $show_complete_tasks == 1) : ?> <!-- Учитываем условие показа по чекбоксу -->
+                           <?php if (!$value["closed"] || $show_complete_tasks == 1) : ?> <!-- Учитываем условие показа по чекбоксу -->
 
-                           <?php if ($value["closed"]) {  // Учитываем условие выполнения задачи
-                               $complete_task = "task--completed";
+                           <?php $extra_class = "";
+                           if ($value["closed"]) {  // Учитываем условие выполнения задачи
+                               $extra_class = "task--completed";
                                } else {
-                                   $complete_task = " ";
-                            }
+                                 if (is_deadline_overdue ($value["date_complete"])) { // Учитываем условие истечения дедлайна
+                                     $extra_class = "task--important";
+                                 }
+                               }
                             ?>
 
-                            <?php // Учитываем условие истечения дедлайна
-                            deadline_count ($value["date_complete"]);
-                            if ($days_until_deadline <= 0 && $value["closed"] == false) {
-                                $important_class = "task--important";
-                                   } else {
-                                   $important_class = " ";
-                            }
-                            ?>
-
-                           <tr class="tasks__item task <?php print $important_class ?> <?php print $complete_task ?>">
+                           <tr class="tasks__item task <?php print $extra_class ?>">
                                <td class="task__select">
                                    <label class="checkbox task__checkbox">
                                        <input class="checkbox__input visually-hidden" type="checkbox">
@@ -199,7 +195,7 @@ $projects = [
                                </td>
                                <td class="task__date">
                                  <!--выведите здесь дату выполнения задачи-->
-                                 <?php print $value["date_complete"] ?>
+                                  <?php print (!empty($value['date_complete']) ? $value['date_complete'] : "Нет") ?>
                                </td>
                                <td class="task__controls">
                                    <button class="expand-control" type="button" name="button"><?php print $value["task"] ?></button>
