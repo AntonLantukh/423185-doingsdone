@@ -169,52 +169,66 @@ $projects = [
                 </div>
                 <table class="tasks">
 
-                     <?php  // Учитываем условие выполнения задачи и показ по чекбоксу
-                     foreach ($projects as $key => $value) : ?>
-                        <?php if ($value["closed"]) {
-                            $complete_task = "task--completed";
-                                 if ($show_complete_tasks == 0) {
-                                    $kill_task = "style=display: none ";
-                                 }  else {
-                                         $kill_task = "";
-                                 }
-                              } else {
-                              $complete_task = " ";
-                     }
-                     ?>
+                    <?php foreach ($projects as $key => $value) : ?>
 
-                     <?php // Учитываем условие истечения дедлайна
-                     deadline_count ($value["date_complete"]);
-                     if ($days_until_deadline <= 0 && $value["closed"] == false) {
-                         $important_class = "task--important";
-                            } else {
-                            $important_class = " ";
-                     }
-                     ?>
+                         <?php if (!$value["closed"] ) : ?> <!-- Учитываем условие показа по чекбоксу -->
 
-                     <tr<?php print $kill_task ?> class="tasks__item task <?php print $important_class ?> <?php print $complete_task ?>">
-                         <td class="task__select">
-                             <label class="checkbox task__checkbox">
-                                 <input class="checkbox__input visually-hidden" type="checkbox">
-                                 <span class="checkbox__text"><?php print $value["task"] ?></span>
-                             </label>
-                         </td>
-                         <td class="task__date">
-                           <!--выведите здесь дату выполнения задачи-->
-                           <?php print $value["date_complete"] ?>
-                         </td>
-                         <td class="task__controls">
-                             <button class="expand-control" type="button" name="button"><?php print $value["task"] ?></button>
-                             <ul class="expand-list hidden">
-                                 <li class="expand-list__item">
-                                     <a href="#">Выполнить</a>
-                                 </li>
-                                 <li class="expand-list__item">
-                                     <a href="#">Удалить</a>
-                                 </li>
-                             </ul>
-                         </td>
-                     </tr>
+                           <?php if ($value["closed"]) {  // Учитываем условие выполнения задачи
+                               $complete_task = "task--completed";
+                               } else {
+                                   $complete_task = " ";
+                            }
+                            ?>
+
+                            <?php // Учитываем условие истечения дедлайна
+                            deadline_count ($value["date_complete"]);
+                            if ($days_until_deadline <= 0 && $value["closed"] == false) {
+                                $important_class = "task--important";
+                                   } else {
+                                   $important_class = " ";
+                            }
+                            ?>
+
+                           <tr class="tasks__item task <?php print $important_class ?> <?php print $complete_task ?>">
+                               <td class="task__select">
+                                   <label class="checkbox task__checkbox">
+                                       <input class="checkbox__input visually-hidden" type="checkbox">
+                                       <span class="checkbox__text"><?php print $value["task"] ?></span>
+                                   </label>
+                               </td>
+                               <td class="task__date">
+                                 <!--выведите здесь дату выполнения задачи-->
+                                 <?php print $value["date_complete"] ?>
+                               </td>
+                               <td class="task__controls">
+                                   <button class="expand-control" type="button" name="button"><?php print $value["task"] ?></button>
+                                   <ul class="expand-list hidden">
+                                       <li class="expand-list__item">
+                                           <a href="#">Выполнить</a>
+                                       </li>
+                                       <li class="expand-list__item">
+                                           <a href="#">Удалить</a>
+                                       </li>
+                                   </ul>
+                               </td>
+                           </tr>
+                          <?php else : ?>
+                          <?php if ($show_complete_tasks) : ?>
+
+                            <tr class="tasks__item task <?php print $important_class ?> <?php print $complete_task ?>">
+                                <td class="task__select">
+                                    <label class="checkbox task__checkbox">
+                                        <input class="checkbox__input visually-hidden" type="checkbox">
+                                        <span class="checkbox__text"><?php print $value["task"] ?></span>
+                                    </label>
+                                </td>
+                                <td class="task__date">
+                                  <!--выведите здесь дату выполнения задачи-->
+                                  <?php print $value["date_complete"] ?>
+                                </td>
+                              </tr>
+                   <?php endif ; ?>
+                   <?php endif ; ?>
                    <?php endforeach ?>
                  </table>
              </main>
