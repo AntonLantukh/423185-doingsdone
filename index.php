@@ -19,42 +19,42 @@ $projects = [
   "task" => "Собеседование в IT компании",
   "date_complete" => "01.06.2018",
   "project" => "Работа",
-  "status" => "Нет",
+  "closed" => false,
 ],
 
 [
   "task" => "Выполнить тестовое задание",
   "date_complete" => "25.05.2018",
   "project" => "Работа",
-  "status" => "Нет",
+  "closed" => false,
 ],
 
 [
   "task" => "Сделать задание первого раздела",
   "date_complete" => "21.04.2018",
   "project" => "Учеба",
-  "status" => "Да",
+  "closed" => true,
 ],
 
 [
   "task" => "Встреча с другом",
   "date_complete" => "22.04.2018",
   "project" => "Входящие",
-  "status" => "Нет",
+  "closed" => false,
 ],
 
 [
   "task" => "Купить корм для кота",
   "date_complete" => "Нет",
   "project" => "Домашние дела",
-  "status" => "Нет",
+  "closed" => false,
 ],
 
 [
   "task" => "Заказать пиццу",
   "date_complete" => "Нет",
   "project" => "Домашние дела",
-  "status" => "Нет",
+  "closed" => false,
 ],
 ];
 ?>
@@ -101,22 +101,22 @@ $projects = [
 
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
-                      
-                    <?php $index = 0 ?>
-                    <?php foreach ($categories as $key => $value) : ?>
 
-                      <?php if ($categories[$index] == "Все") {
-                      $active_category = "main-navigation__list-item--active";
-                      $index++;
-                      } else {
+                      <?php // Добавляем класс активной категории первому элементу
+                      $category_count = 0;
+                      foreach ($categories as $key => $value):
                       $active_category = " ";
-                      }
+                          if ($category_count == 0) {
+                          $active_category = "main-navigation__list-item--active";
+                         }
                       ?>
+
                         <li class="main-navigation__list-item <?php print $active_category ?>">
                             <a class="main-navigation__list-item-link" href="#"><?php print $value ?></a>
                             <span class="main-navigation__list-item-count">46</span>
                         </li>
-                    <?php endforeach ?>
+                      <?php $category_count++ ?>
+                      <?php endforeach ?>
                     </ul>
                 </nav>
                 <a class="button button--transparent button--plus content__side-button" href="#">Добавить проект</a>
@@ -164,22 +164,22 @@ $projects = [
                     </label>
                 </div>
                 <table class="tasks">
+
+                     <?php  // Учитываем условие выполнение задачи
+                     foreach ($projects as $key => $value) : ?>
+                        <?php if ($value["closed"]) {
+                        $complete_task = "task--completed";
+                        } else {
+                        $complete_task = " ";
+                     }
+                     ?>
+
                      <?php // Учитываем условие истечение дедлайна
-                       if ($days_until_deadline <= 0) {
+                       if ($days_until_deadline <= 0 && $value["closed"] == false) {
                        $important_class = "task--important";
                        } else {
                        $important_class = " ";
                      }
-                     ?>
-
-                     <?php  // Учитываем условие выполнение задачи
-                       foreach ($projects as $key => $value) : ?>
-                       <?php $status_task = $value["status"];  ?>
-                         <?php if ($status_task == "Да") {
-                         $complete_task = "task--completed";
-                         } else {
-                         $complete_task = " ";
-                       }
                      ?>
 
                      <tr class="tasks__item task <?php print $important_class ?> <?php print $complete_task ?>">
