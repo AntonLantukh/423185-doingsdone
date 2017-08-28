@@ -7,17 +7,17 @@ date_default_timezone_set('Europe/Moscow');
 $categories = ["Все", "Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
 // Функция для расчета количества дней до дедлайна
 function is_deadline_overdue ($deadline) {
-   if (empty ($deadline)) {
-       return (false);
-       } else {
-           $current_ts = strtotime('now midnight');
-           $task_deadline_ts = strtotime($deadline);
-           $days_until_deadline = floor (($task_deadline_ts - $current_ts) / 86400);
-              if ($days_until_deadline <= 0) {
-                 return (true);
-                 } else {
+    if (empty ($deadline)) {
+        return (false);
+        } else {
+            $current_ts = strtotime('now midnight');
+            $task_deadline_ts = strtotime($deadline);
+            $days_until_deadline = floor (($task_deadline_ts - $current_ts) / 86400);
+            if ($days_until_deadline <= 0) {
+                return (true);
+                } else {
                     return (false);
-                 }
+                }
        }
 }
 // Определяем ассоциативные массивы в рамках двумерного массива
@@ -112,10 +112,10 @@ $projects = [
                       <?php // Добавляем класс активной категории первому элементу
                       $category_count = 0;
                       foreach ($categories as $key => $value):
-                      $active_category = " ";
+                          $active_category = " ";
                           if ($category_count == 0) {
-                          $active_category = "main-navigation__list-item--active";
-                         }
+                              $active_category = "main-navigation__list-item--active";
+                          }
                       ?>
 
                         <li class="main-navigation__list-item <?php print $active_category ?>">
@@ -180,9 +180,9 @@ $projects = [
                            if ($value["closed"]) {  // Учитываем условие выполнения задачи
                                $extra_class = "task--completed";
                                } else {
-                                 if (is_deadline_overdue ($value["date_complete"])) { // Учитываем условие истечения дедлайна
-                                     $extra_class = "task--important";
-                                 }
+                               if (is_deadline_overdue ($value["date_complete"])) { // Учитываем условие истечения дедлайна
+                                   $extra_class = "task--important";
+                               }
                                }
                             ?>
 
