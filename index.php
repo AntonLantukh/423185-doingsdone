@@ -8,7 +8,8 @@ $categories = ["Все", "Входящие", "Учеба", "Работа", "До
 // Функция для расчета количества дней до дедлайна
 function deadline_count ($task_date) {
    if ($task_date == "Нет") {
-      $days_until_deadline = true;
+       global $days_until_deadline;
+       $days_until_deadline = true;
          } else {
            $current_ts = strtotime('now midnight');
            $task_deadline_ts = strtotime($task_date);
@@ -171,7 +172,7 @@ $projects = [
 
                     <?php foreach ($projects as $key => $value) : ?>
 
-                         <?php if (!$value["closed"] ) : ?> <!-- Учитываем условие показа по чекбоксу -->
+                         <?php if (!$value["closed"] || $show_complete_tasks == 1) : ?> <!-- Учитываем условие показа по чекбоксу -->
 
                            <?php if ($value["closed"]) {  // Учитываем условие выполнения задачи
                                $complete_task = "task--completed";
@@ -212,22 +213,6 @@ $projects = [
                                    </ul>
                                </td>
                            </tr>
-                          <?php else : ?>
-                          <?php if ($show_complete_tasks) : ?>
-
-                            <tr class="tasks__item task <?php print $important_class ?> <?php print $complete_task ?>">
-                                <td class="task__select">
-                                    <label class="checkbox task__checkbox">
-                                        <input class="checkbox__input visually-hidden" type="checkbox">
-                                        <span class="checkbox__text"><?php print $value["task"] ?></span>
-                                    </label>
-                                </td>
-                                <td class="task__date">
-                                  <!--выведите здесь дату выполнения задачи-->
-                                  <?php print $value["date_complete"] ?>
-                                </td>
-                              </tr>
-                   <?php endif ; ?>
                    <?php endif ; ?>
                    <?php endforeach ?>
                  </table>
