@@ -3,16 +3,20 @@
 $show_complete_tasks = rand(0, 1);
 // устанавливаем часовой пояс в Московское время
 date_default_timezone_set('Europe/Moscow');
-$days = rand(-3, 3);
-$task_deadline_ts = strtotime("+" . $days . " day midnight"); // метка времени даты выполнения задачи
-$current_ts = strtotime('now midnight'); // текущая метка времени
-// запишите сюда дату выполнения задачи в формате дд.мм.гггг
-$date_deadline = date("d.m.Y", $task_deadline_ts);
-$date_current = date("d.m.Y", $current_ts);
-// в эту переменную запишите кол-во дней до даты задачи
-$days_until_deadline = floor (($task_deadline_ts - $current_ts) / 86400);
 // Определяем массив для проектов
 $categories = ["Все", "Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
+// Функция для расчета количества дней до дедлайна
+function deadline_count ($task_date) {
+   if ($task_date == "Нет") {
+      $days_until_deadline = true;
+         } else {
+           $current_ts = strtotime('now midnight');
+           $task_deadline_ts = strtotime($task_date);
+           global $days_until_deadline;
+           $days_until_deadline = floor (($task_deadline_ts - $current_ts) / 86400);
+           return ($days_until_deadline);
+   }
+}
 // Определяем ассоциативные массивы в рамках двумерного массива
 $projects = [
 [
@@ -168,17 +172,18 @@ $projects = [
                      <?php  // Учитываем условие выполнение задачи
                      foreach ($projects as $key => $value) : ?>
                         <?php if ($value["closed"]) {
-                        $complete_task = "task--completed";
-                        } else {
-                        $complete_task = " ";
+                            $complete_task = "task--completed";
+                                } else {
+                                $complete_task = " ";
                      }
                      ?>
 
-                     <?php // Учитываем условие истечение дедлайна
-                       if ($days_until_deadline <= 0 && $value["closed"] == false) {
-                       $important_class = "task--important";
-                       } else {
-                       $important_class = " ";
+                     <?php
+                     deadline_count ($value["date_complete"]); // Учитываем условие истечение дедлайна
+                     if ($days_until_deadline <= 0 && $value["closed"] == false) {
+                         $important_class = "task--important";
+                            } else {
+                            $important_class = " ";
                      }
                      ?>
 
