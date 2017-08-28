@@ -169,17 +169,22 @@ $projects = [
                 </div>
                 <table class="tasks">
 
-                     <?php  // Учитываем условие выполнение задачи
+                     <?php  // Учитываем условие выполнения задачи и показ по чекбоксу
                      foreach ($projects as $key => $value) : ?>
                         <?php if ($value["closed"]) {
                             $complete_task = "task--completed";
-                                } else {
-                                $complete_task = " ";
+                                 if ($show_complete_tasks == 0) {
+                                    $kill_task = "style=display: none ";
+                                 }  else {
+                                         $kill_task = "";
+                                 }
+                              } else {
+                              $complete_task = " ";
                      }
                      ?>
 
-                     <?php
-                     deadline_count ($value["date_complete"]); // Учитываем условие истечение дедлайна
+                     <?php // Учитываем условие истечения дедлайна
+                     deadline_count ($value["date_complete"]);
                      if ($days_until_deadline <= 0 && $value["closed"] == false) {
                          $important_class = "task--important";
                             } else {
@@ -187,7 +192,7 @@ $projects = [
                      }
                      ?>
 
-                     <tr class="tasks__item task <?php print $important_class ?> <?php print $complete_task ?>">
+                     <tr<?php print $kill_task ?> class="tasks__item task <?php print $important_class ?> <?php print $complete_task ?>">
                          <td class="task__select">
                              <label class="checkbox task__checkbox">
                                  <input class="checkbox__input visually-hidden" type="checkbox">
