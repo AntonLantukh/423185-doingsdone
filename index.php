@@ -20,8 +20,20 @@ function is_deadline_overdue ($deadline) {
                 }
        }
 }
-
-
+// Функция для подсчета количества задач под каждой категорией
+function task_count ($tasks_array, $project_name) {
+    $cnt = 0;
+    if ($project_name == "Все") {
+        $cnt = count ($tasks_array);
+    } else {
+    foreach ($tasks_array as $key => $value) {
+        if ($project_name == $value["project"]) {
+            $cnt++;
+        }
+    }
+    }
+    return ($cnt);
+}
 // Определяем ассоциативные массивы в рамках двумерного массива
 $projects = [
 [
@@ -122,7 +134,7 @@ $projects = [
 
                         <li class="main-navigation__list-item <?php print $active_category ?>">
                             <a class="main-navigation__list-item-link" href="#"><?php print $value ?></a>
-                            <span class="main-navigation__list-item-count">46</span>
+                            <span class="main-navigation__list-item-count"><?php print (task_count ($projects, $categories[$category_count])) ?></span>
                         </li>
                       <?php $category_count++ ?>
                       <?php endforeach ?>
