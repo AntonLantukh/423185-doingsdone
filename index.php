@@ -3,14 +3,67 @@
 $show_complete_tasks = rand(0, 1);
 // устанавливаем часовой пояс в Московское время
 date_default_timezone_set('Europe/Moscow');
-$days = rand(-3, 3);
-$task_deadline_ts = strtotime("+" . $days . " day midnight"); // метка времени даты выполнения задачи
-$current_ts = strtotime('now midnight'); // текущая метка времени
-// запишите сюда дату выполнения задачи в формате дд.мм.гггг
-$date_deadline = date("d.m.Y", $task_deadline_ts);
-$date_current = date("d.m.Y", $current_ts);
-// в эту переменную запишите кол-во дней до даты задачи
-$days_until_deadline = floor (($task_deadline_ts - $current_ts) / 86400);
+// Определяем массив для проектов
+$categories = ["Все", "Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
+// Функция для расчета количества дней до дедлайна
+function is_deadline_overdue ($deadline) {
+    if (empty ($deadline)) {
+        return (false);
+        } else {
+            $current_ts = strtotime('now midnight');
+            $task_deadline_ts = strtotime($deadline);
+            $days_until_deadline = floor (($task_deadline_ts - $current_ts) / 86400);
+            if ($days_until_deadline <= 0) {
+                return (true);
+                } else {
+                    return (false);
+                }
+       }
+}
+// Определяем ассоциативные массивы в рамках двумерного массива
+$projects = [
+[
+  "task" => "Собеседование в IT компании",
+  "date_complete" => "01.06.2018",
+  "project" => "Работа",
+  "closed" => false,
+],
+
+[
+  "task" => "Выполнить тестовое задание",
+  "date_complete" => "25.05.2018",
+  "project" => "Работа",
+  "closed" => false,
+],
+
+[
+  "task" => "Сделать задание первого раздела",
+  "date_complete" => "21.04.2018",
+  "project" => "Учеба",
+  "closed" => true,
+],
+
+[
+  "task" => "Встреча с другом",
+  "date_complete" => "22.04.2018",
+  "project" => "Входящие",
+  "closed" => false,
+],
+
+[
+  "task" => "Купить корм для кота",
+  "date_complete" => "",
+  "project" => "Домашние дела",
+  "closed" => false,
+],
+
+[
+  "task" => "Заказать пиццу",
+  "date_complete" => "",
+  "project" => "Домашние дела",
+  "closed" => false,
+],
+];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,36 +108,26 @@ $days_until_deadline = floor (($task_deadline_ts - $current_ts) / 86400);
 
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
-                        <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#">Входящие</a>
-                            <span class="main-navigation__list-item-count">24</span>
-                        </li>
 
-                        <li class="main-navigation__list-item main-navigation__list-item--active">
-                            <a class="main-navigation__list-item-link" href="#">Учеба</a>
-                            <span class="main-navigation__list-item-count">12</span>
-                        </li>
+                      <?php // Добавляем класс активной категории первому элементу
+                      $category_count = 0;
+                      foreach ($categories as $key => $value):
+                          $active_category = " ";
+                          if ($category_count == 0) {
+                              $active_category = "main-navigation__list-item--active";
+                          }
+                      ?>
 
-                        <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#">Здоровье</a>
-                            <span class="main-navigation__list-item-count">3</span>
+                        <li class="main-navigation__list-item <?php print $active_category ?>">
+                            <a class="main-navigation__list-item-link" href="#"><?php print $value ?></a>
+                            <span class="main-navigation__list-item-count">46</span>
                         </li>
-
-                        <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#">Домашние дела</a>
-                            <span class="main-navigation__list-item-count">7</span>
-                        </li>
-
-                        <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#">Авто</a>
-                            <span class="main-navigation__list-item-count">0</span>
-                        </li>
+                      <?php $category_count++ ?>
+                      <?php endforeach ?>
                     </ul>
                 </nav>
-
                 <a class="button button--transparent button--plus content__side-button" href="#">Добавить проект</a>
             </section>
-
             <main class="content__main">
                 <h2 class="content__main-heading">Список задач</h2>
 
@@ -128,62 +171,46 @@ $days_until_deadline = floor (($task_deadline_ts - $current_ts) / 86400);
                     </label>
                 </div>
                 <table class="tasks">
-                     <?php if ($show_complete_tasks == 1) : ?>
-                     <!--показывать следующий тег <tr/>, если переменная равна единице-->
-                     <tr class="tasks__item task task--completed">
-                         <td class="task__select">
-                             <label class="checkbox task__checkbox">
-                                 <input class="checkbox__input visually-hidden" type="checkbox" checked>
-                                 <span class="checkbox__text">Записаться на интенсив "Базовый PHP"</span>
-                             </label>
-                         </td>
-                         <td class="task__date">10.04.2017</td>
 
-                         <td class="task__controls">
-                         </td>
-                     </tr>
-                     <?php endif ; ?>
-                     <?php if ($days_until_deadline <= 0) : ?>
-                     <tr class="tasks__item task task--important">
-                         <td class="task__select">
-                             <label class="checkbox task__checkbox">
-                                 <input class="checkbox__input visually-hidden" type="checkbox">
-                                 <span class="checkbox__text">Выполнить первое задание</span>
-                             </label>
-                         </td>
+                    <?php foreach ($projects as $key => $value) : ?>
 
-                         <td class="task__date">
-                           <!--выведите здесь дату выполнения задачи-->
-                           <?php echo $date_deadline ?>
-                         </td>
-                         <?php else: ?>
-                         <tr class="tasks__item task">
-                             <td class="task__select">
-                                 <label class="checkbox task__checkbox">
-                                     <input class="checkbox__input visually-hidden" type="checkbox">
-                                     <span class="checkbox__text">Выполнить первое задание</span>
-                                 </label>
-                             </td>
+                           <?php if (!$value["closed"] || $show_complete_tasks == 1) : ?> <!-- Учитываем условие показа по чекбоксу -->
 
-                             <td class="task__date">
-                               <!--выведите здесь дату выполнения задачи-->
-                             <?php echo $date_deadline ?>
-                             </td>
-                             <?php endif ; ?>
-                          <td class="task__controls">
-                             <button class="expand-control" type="button" name="button">Выполнить первое задание</button>
+                           <?php $extra_class = "";
+                           if ($value["closed"]) {  // Учитываем условие выполнения задачи
+                               $extra_class = "task--completed";
+                               } else {
+                               if (is_deadline_overdue ($value["date_complete"])) { // Учитываем условие истечения дедлайна
+                                   $extra_class = "task--important";
+                               }
+                               }
+                            ?>
 
-                             <ul class="expand-list hidden">
-                                 <li class="expand-list__item">
-                                     <a href="#">Выполнить</a>
-                                 </li>
-
-                                 <li class="expand-list__item">
-                                     <a href="#">Удалить</a>
-                                 </li>
-                             </ul>
-                         </td>
-                     </tr>
+                           <tr class="tasks__item task <?php print $extra_class ?>">
+                               <td class="task__select">
+                                   <label class="checkbox task__checkbox">
+                                       <input class="checkbox__input visually-hidden" type="checkbox">
+                                       <span class="checkbox__text"><?php print $value["task"] ?></span>
+                                   </label>
+                               </td>
+                               <td class="task__date">
+                                 <!--выведите здесь дату выполнения задачи-->
+                                  <?php print (!empty($value['date_complete']) ? $value['date_complete'] : "Нет") ?>
+                               </td>
+                               <td class="task__controls">
+                                   <button class="expand-control" type="button" name="button"><?php print $value["task"] ?></button>
+                                   <ul class="expand-list hidden">
+                                       <li class="expand-list__item">
+                                           <a href="#">Выполнить</a>
+                                       </li>
+                                       <li class="expand-list__item">
+                                           <a href="#">Удалить</a>
+                                       </li>
+                                   </ul>
+                               </td>
+                           </tr>
+                   <?php endif ; ?>
+                   <?php endforeach ?>
                  </table>
              </main>
          </div>
