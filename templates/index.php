@@ -1,6 +1,7 @@
 <?php
-    ob_start();
+ob_start();
 ?>
+
 <main class="content__main">
     <h2 class="content__main-heading">Список задач</h2>
 
@@ -87,5 +88,5 @@
      </table>
  </main>
  <?php
-     $html = ob_get_clean();
+ $html = ob_get_clean();
  ?>

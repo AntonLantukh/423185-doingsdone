@@ -1,40 +1,4 @@
 <?php
-// показывать или нет выполненные задачи
-$show_complete_tasks = rand(0, 1);
-// устанавливаем часовой пояс в Московское время
-date_default_timezone_set('Europe/Moscow');
-
-// Функция для расчета количества дней до дедлайна
-function is_deadline_overdue ($deadline) {
-    if (empty ($deadline)) {
-        return (false);
-    } else {
-        $current_ts = strtotime('now midnight');
-        $task_deadline_ts = strtotime($deadline);
-        $days_until_deadline = floor (($task_deadline_ts - $current_ts) / 86400);
-
-        if ($days_until_deadline <= 0) {
-          return (true);
-        } else {
-            return (false);
-        }
-    }
-}
-
-// Функция для подсчета количества задач под каждой категорией
-function task_count ($tasks_array, $project_name) {
-    $cnt = 0;
-    if ($project_name == "Все") {
-        $cnt = count ($tasks_array);
-    } else {
-        foreach ($tasks_array as $key => $value) {
-            if ($project_name == $value["project"]) {
-                $cnt++;
-            }
-        }
-    }
-    return ($cnt);
-}
 
 // Определяем массив для проектов
 $categories = ["Все", "Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
@@ -84,9 +48,12 @@ $projects = [
     ],
 ];
 
-?>
-<?php
-    require_once('functions.php');
-    $page_content = renderTemplate('templates/layout.php', $projects);
-    print $page_content;
+// Подключаем функцию-обработчик, где также хранятся другие функции
+require_once('functions.php');
+// Собираем значения основного контекта страницы
+$page_content = render_template('templates/index.php', $categories, $projects);
+// Добавляем к этому содержание шаппки и футера
+$layout_content = render_template('templates/layout.php', ['content' => $page_content, 'title' => 'GifTube - Главная']););
+// Выводим всю страницу целиком
+print $layout_content;
 ?>

@@ -1,5 +1,44 @@
 <?php
-function renderTemplate($template_route, $template_array) {
+
+// показывать или нет выполненные задачи
+$show_complete_tasks = rand(0, 1);
+// устанавливаем часовой пояс в Московское время
+date_default_timezone_set('Europe/Moscow');
+
+// Функция для расчета количества дней до дедлайна
+function is_deadline_overdue ($deadline) {
+    if (empty ($deadline)) {
+        return (false);
+    } else {
+        $current_ts = strtotime('now midnight');
+        $task_deadline_ts = strtotime($deadline);
+        $days_until_deadline = floor (($task_deadline_ts - $current_ts) / 86400);
+
+        if ($days_until_deadline <= 0) {
+          return (true);
+        } else {
+            return (false);
+        }
+    }
+}
+
+// Функция для подсчета количества задач под каждой категорией
+function task_count ($tasks_array, $project_name) {
+    $cnt = 0;
+    if ($project_name == "Все") {
+        $cnt = count ($tasks_array);
+    } else {
+        foreach ($tasks_array as $key => $value) {
+            if ($project_name == $value["project"]) {
+                $cnt++;
+            }
+        }
+    }
+    return ($cnt);
+}
+
+// Функция для обрабтки шаблонов и подключения их в index.php
+function render_template($template_route, $template_first_array, $template_second_array) {
     $file_check = file_exists ($template_route);
         if (!$file_check) {
             return ("");
