@@ -49,11 +49,14 @@ $projects = [
 ];
 
 // Подключаем функцию-обработчик, где также хранятся другие функции
-require_once('functions.php');
+require_once ('functions.php');
+
 // Собираем значения основного контекта страницы
-$page_content = render_template('templates/index.php', $categories, $projects);
+$page_content = render_template ('templates/index.php', $categories, $projects, ['content' => $page_content, 'title' => 'GifTube - Главная']);
+
 // Добавляем к этому содержание шаппки и футера
-$layout_content = render_template('templates/layout.php', ['content' => $page_content, 'title' => 'GifTube - Главная']););
+$layout_content = render_template('templates/layout.php', $categories, $projects, ['content' => $page_content, 'title' => 'GifTube - Главная']);
+
 // Выводим всю страницу целиком
 print $layout_content;
 ?>

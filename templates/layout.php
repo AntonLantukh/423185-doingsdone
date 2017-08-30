@@ -48,7 +48,7 @@ ob_start();
 
                       <?php // Добавляем класс активной категории первому элементу
                       $category_count = 0;
-                      foreach ($categories as $key => $value):
+                      foreach ($categories as $key => $value): 
                           $active_category = " ";
                           if ($category_count == 0) {
                               $active_category = "main-navigation__list-item--active";

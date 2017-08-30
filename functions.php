@@ -2,6 +2,7 @@
 
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
+
 // устанавливаем часовой пояс в Московское время
 date_default_timezone_set('Europe/Moscow');
 
@@ -20,7 +21,7 @@ function is_deadline_overdue ($deadline) {
             return (false);
         }
     }
-}
+};
 
 // Функция для подсчета количества задач под каждой категорией
 function task_count ($tasks_array, $project_name) {
@@ -35,17 +36,16 @@ function task_count ($tasks_array, $project_name) {
         }
     }
     return ($cnt);
-}
+};
 
 // Функция для обрабтки шаблонов и подключения их в index.php
-function render_template($template_route, $template_first_array, $template_second_array) {
+function render_template ($template_route, $categories, $projects, $array) {
     $file_check = file_exists ($template_route);
         if (!$file_check) {
             return ("");
         } else {
             require_once($template_route);
-            $page_content = $html;
-            return ($page_content);
+            return ($html);
         }
 };
 ?>
