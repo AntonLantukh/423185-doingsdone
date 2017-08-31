@@ -1,7 +1,3 @@
-<?php
-ob_start();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,7 +44,7 @@ ob_start();
 
                       <?php // Добавляем класс активной категории первому элементу
                       $category_count = 0;
-                      foreach ($categories as $key => $value): 
+                      foreach ($categories as $key => $value):
                           $active_category = " ";
                           if ($category_count == 0) {
                               $active_category = "main-navigation__list-item--active";
@@ -56,7 +52,7 @@ ob_start();
                         ?>
 
                         <li class="main-navigation__list-item <?php print $active_category ?>">
-                            <a class="main-navigation__list-item-link" href="#"><?php print $value ?></a>
+                            <a class="main-navigation__list-item-link" href="#"><?php print (htmlspecialchars ($value)) ?></a>
                             <span class="main-navigation__list-item-count"><?php print (task_count ($projects, $value)) ?></span>
                         </li>
                         <?php $category_count++ ?>
@@ -158,6 +154,3 @@ ob_start();
  <script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>
-<?php
-$html = ob_get_clean();
-?>

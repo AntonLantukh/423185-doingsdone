@@ -1,7 +1,7 @@
 <?php
 
 // показывать или нет выполненные задачи
-$show_complete_tasks = rand(0, 1);
+$show_complete_tasks_in = rand(0, 1);
 
 // устанавливаем часовой пояс в Московское время
 date_default_timezone_set('Europe/Moscow');
@@ -44,8 +44,10 @@ function render_template ($template_route, $template_array) {
         if (!$file_check) {
             return ("");
         } else {
+            ob_start();
             extract ($template_array);
             require_once($template_route);
+            $html = ob_get_clean();
             return ($html);
         }
 };

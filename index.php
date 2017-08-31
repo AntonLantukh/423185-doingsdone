@@ -52,7 +52,7 @@ $projects_in = [
 require_once ('functions.php');
 
 // Собираем значения основного контекта страницы
-$page_content = render_template ('templates/index.php', ['projects' => $projects_in, 'categories' => $categories]);
+$page_content = render_template ('templates/index.php', ['projects' => $projects_in, 'categories' => $categories, 'show_complete_tasks' => $show_complete_tasks_in]);
 
 // Добавляем к этому содержание шаппки и футера
 $layout_content = render_template ('templates/layout.php', ['projects' => $projects_in, 'categories' => $categories_in, 'content' => $page_content, 'title' => 'Дела в порядке!']);

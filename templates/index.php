@@ -1,6 +1,3 @@
-<?php
-ob_start();
-?>
 
     <h2 class="content__main-heading">Список задач</h2>
 
@@ -53,7 +50,7 @@ ob_start();
                  if ($value["closed"]) {  // Учитываем условие выполнения задачи
                         $extra_class = "task--completed";
                      } else {
-                        if (is_deadline_overdue ($value["date_complete"])) { // Учитываем условие истечения дедлайна
+                        if (is_deadline_overdue (htmlspecialchars ($value["date_complete"]))) { // Учитываем условие истечения дедлайна
                           $extra_class = "task--important";
                         }
                      }
@@ -63,15 +60,15 @@ ob_start();
                      <td class="task__select">
                          <label class="checkbox task__checkbox">
                              <input class="checkbox__input visually-hidden" type="checkbox">
-                             <span class="checkbox__text"><?php print $value["task"] ?></span>
+                             <span class="checkbox__text"><?php print (htmlspecialchars ($value["task"])) ?></span>
                          </label>
                      </td>
                      <td class="task__date">
                        <!--выведите здесь дату выполнения задачи-->
-                        <?php print (!empty($value['date_complete']) ? $value['date_complete'] : "Нет") ?>
+                        <?php print (htmlspecialchars(!empty($value['date_complete']) ? $value['date_complete'] : "Нет")) ?>
                      </td>
                      <td class="task__controls">
-                         <button class="expand-control" type="button" name="button"><?php print $value["task"] ?></button>
+                         <button class="expand-control" type="button" name="button"><?php print (htmlspecialchars ($value["task"])) ?></button>
                          <ul class="expand-list hidden">
                              <li class="expand-list__item">
                                  <a href="#">Выполнить</a>
@@ -85,6 +82,3 @@ ob_start();
               <?php endif ; ?>
        <?php endforeach ?>
      </table>
- <?php
- $html = ob_get_clean();
- ?>
