@@ -39,11 +39,12 @@ function task_count ($tasks_array, $project_name) {
 };
 
 // Функция для обрабтки шаблонов и подключения их в index.php
-function render_template ($template_route, $categories, $projects, $array) {
+function render_template ($template_route, $template_array) {
     $file_check = file_exists ($template_route);
         if (!$file_check) {
             return ("");
         } else {
+            extract ($template_array);
             require_once($template_route);
             return ($html);
         }

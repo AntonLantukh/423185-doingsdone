@@ -2,7 +2,6 @@
 ob_start();
 ?>
 
-<main class="content__main">
     <h2 class="content__main-heading">Список задач</h2>
 
     <form class="search-form" action="index.php" method="post">
@@ -86,7 +85,6 @@ ob_start();
               <?php endif ; ?>
        <?php endforeach ?>
      </table>
- </main>
  <?php
  $html = ob_get_clean();
  ?>
