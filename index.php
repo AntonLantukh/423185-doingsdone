@@ -56,6 +56,7 @@ $page_content = render_template ('templates/index.php', ['projects' => $projects
 
 // Добавляем к этому содержание шаппки и футера
 $layout_content = render_template ('templates/layout.php', ['projects' => $projects_in, 'categories' => $categories_in, 'content' => $page_content, 'title' => 'Дела в порядке!']);
+
 // Выводим всю страницу целиком
 print $layout_content;
 ?>
