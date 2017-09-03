@@ -64,6 +64,8 @@ function parameter_check ($categories, $value) {
        } else {
            header ("HTTP/1.1 404 Not Found");
        }
+   } else {
+       return(1);
    }
 };
 
