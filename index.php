@@ -48,11 +48,30 @@ $projects_in = [
     ],
 ];
 
+// Функция для проверки на существование параметра запроса с идентификатором проекта
+function parameter_check ($categories, $value) {
+    if (isset($_GET["id"])) {
+        $id_in = (int)$_GET["id"];
+        if ($id_in == 0) {
+            return (1);
+        }
+        if (array_key_exists ($id_in, $categories)) {
+                if ($categories[$id_in] == $value) {
+                    return (1);
+                } else {
+                    return (0);
+                }
+       } else {
+           header ("HTTP/1.1 404 Not Found");
+       }
+   }
+};
+
 // Подключаем функцию-обработчик, где также хранятся другие функции
 require_once ('functions.php');
 
 // Собираем значения основного контекта страницы
-$page_content = render_template ('templates/index.php', ['projects' => $projects_in, 'categories' => $categories, 'show_complete_tasks' => $show_complete_tasks_in]);
+$page_content = render_template ('templates/index.php', ['id' => $id_in, 'projects' => $projects_in, 'categories' => $categories_in, 'show_complete_tasks' => $show_complete_tasks_in]);
 
 // Добавляем к этому содержание шаппки и футера
 $layout_content = render_template ('templates/layout.php', ['projects' => $projects_in, 'categories' => $categories_in, 'content' => $page_content, 'title' => 'Дела в порядке!']);

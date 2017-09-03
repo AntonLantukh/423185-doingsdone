@@ -42,19 +42,24 @@
     </div>
     <table class="tasks">
 
-        <?php foreach ($projects as $key => $value) : ?>
+            <?php foreach ($projects as $key => $value): ?>
+                
+            <?php if (!parameter_check ($categories, $value["project"])) {
+                continue;
+            }
+            ?>
 
-              <?php if (!$value["closed"] || $show_complete_tasks == 1) : ?> <!-- Учитываем условие показа по чекбоксу -->
+            <?php if (!$value["closed"] || $show_complete_tasks == 1) : ?> <!-- Учитываем условие показа по чекбоксу -->
 
-                 <?php $extra_class = "";
-                 if ($value["closed"]) {  // Учитываем условие выполнения задачи
-                        $extra_class = "task--completed";
-                     } else {
-                        if (is_deadline_overdue (htmlspecialchars ($value["date_complete"]))) { // Учитываем условие истечения дедлайна
-                          $extra_class = "task--important";
-                        }
-                     }
-                  ?>
+               <?php $extra_class = "";
+               if ($value["closed"]) {  // Учитываем условие выполнения задачи
+                      $extra_class = "task--completed";
+                   } else {
+                      if (is_deadline_overdue (htmlspecialchars ($value["date_complete"]))) { // Учитываем условие истечения дедлайна
+                        $extra_class = "task--important";
+                      }
+                   }
+                ?>
 
                  <tr class="tasks__item task <?php print $extra_class ?>">
                      <td class="task__select">
@@ -79,6 +84,6 @@
                          </ul>
                      </td>
                  </tr>
-              <?php endif ; ?>
-       <?php endforeach ?>
+          <?php endif ; ?>
+        <?php endforeach ; ?>
      </table>
