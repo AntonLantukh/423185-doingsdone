@@ -43,8 +43,8 @@
     <table class="tasks">
 
             <?php foreach ($projects as $key => $value): ?>
-                
-            <?php if (!parameter_check ($categories, $value["project"])) {
+
+            <?php if (!project_count ($categories, $value["project"])) {
                 continue;
             }
             ?>

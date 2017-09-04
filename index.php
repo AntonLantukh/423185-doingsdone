@@ -48,29 +48,73 @@ $projects_in = [
     ],
 ];
 
-// Функция для проверки на существование параметра запроса с идентификатором проекта
-function parameter_check ($categories, $value) {
+// показывать или нет выполненные задачи
+$show_complete_tasks_in = rand(0, 1);
+
+// устанавливаем часовой пояс в Московское время
+date_default_timezone_set('Europe/Moscow');
+
+// Функция для расчета количества дней до дедлайна
+function is_deadline_overdue ($deadline) {
+    if (empty ($deadline)) {
+        return (false);
+    } else {
+        $current_ts = strtotime('now midnight');
+        $task_deadline_ts = strtotime($deadline);
+        $days_until_deadline = floor (($task_deadline_ts - $current_ts) / 86400);
+
+        if ($days_until_deadline <= 0) {
+          return (true);
+        } else {
+            return (false);
+        }
+    }
+};
+
+// Функция для подсчета количества задач под каждой категорией
+function task_count ($tasks_array, $project_name) {
+    $cnt = 0;
+    if ($project_name == "Все") {
+        $cnt = count ($tasks_array);
+    } else {
+        foreach ($tasks_array as $key => $value) {
+            if ($project_name == $value["project"]) {
+                $cnt++;
+            }
+        }
+    }
+    return ($cnt);
+};
+
+// Функця проверки корректности параметра запроса id
+function project_check ($categories_in) {
     if (isset($_GET["id"])) {
         $id_in = (int)$_GET["id"];
+            if (!array_key_exists ($id_in, $categories_in)) {
+                header ("HTTP/1.1 404 Not Found");
+            }
+    }
+};
+
+
+// Функция для отображения проектов в соответствии с идентификатором
+function project_count ($categories, $value) {
+    $id_in = (int)$_GET["id"];
         if ($id_in == 0) {
-            return (1);
+            return(1);
         }
-        if (array_key_exists ($id_in, $categories)) {
-                if ($categories[$id_in] == $value) {
-                    return (1);
-                } else {
-                    return (0);
-                }
-       } else {
-           header ("HTTP/1.1 404 Not Found");
-       }
-   } else {
-       return(1);
-   }
+        elseif ($categories[$id_in] == $value) {
+            return (1);
+        } else {
+            return (0);
+        }
 };
 
 // Подключаем функцию-обработчик, где также хранятся другие функции
 require_once ('functions.php');
+
+// Подключаем функцию проверки корректности параметра запроса id
+project_check ($categories_in);
 
 // Собираем значения основного контекта страницы
 $page_content = render_template ('templates/index.php', ['id' => $id_in, 'projects' => $projects_in, 'categories' => $categories_in, 'show_complete_tasks' => $show_complete_tasks_in]);

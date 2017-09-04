@@ -52,7 +52,7 @@
                         ?>
 
                         <li class="main-navigation__list-item <?php print $active_category ?>">
-                            <a class="main-navigation__list-item-link" href="http://localhost/index.php<?php print "?id=$key"?>"><?php print (htmlspecialchars ($value)) ?></a>
+                            <a class="main-navigation__list-item-link" href="/index.php<?php print "?id=$key"?>"><?php print (htmlspecialchars ($value)) ?></a>
                             <span class="main-navigation__list-item-count"><?php print (task_count ($projects, $value)) ?></span>
                         </li>
                         <?php $category_count++ ?>
