@@ -72,12 +72,43 @@ function parameter_check ($categories, $value) {
 // Подключаем функцию-обработчик, где также хранятся другие функции
 require_once ('functions.php');
 
+// Проверка на добавление окна с новой задачей
+if (isset($_GET["add"])) {
+    $add_class_in = ' class ="overlay"';
+    $form_content = render_template ('templates/form.php', ['add_class' => $add_class_in]);
+    } else {
+        $add_class_in = '';
+};
+
+// Функция для обработки запросиов POST
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
+    if (isset($_FILES['preview'])) {
+        $file_name = $_FILES['preview']['task_image'];
+        $file_path = __DIR__ ;
+        $file_url = __DIR__ . $file_name;
+        $new_task = $_POST;
+        unset($new_task["send"]);
+        unset($new_task["preview"]);
+        $new_task ["closed"] = false;
+        array_push ($projects_in, [$new_task]);
+        var_dump ($projects_in);
+        } else {
+            $new_task = $_POST;
+            unset($new_task["send"]);
+            unset($new_task["preview"]);
+            $new_task ["closed"] = false;
+            array_push ($projects_in, [$new_task]);
+            var_dump ($projects_in);
+};
+
 // Собираем значения основного контекта страницы
-$page_content = render_template ('templates/index.php', ['id' => $id_in, 'projects' => $projects_in, 'categories' => $categories_in, 'show_complete_tasks' => $show_complete_tasks_in]);
+$page_content = render_template ('templates/index.php', ['id' => $id_in, 'projects' => $projects_in, 'categories' => $categories_in, 'add_class' => $add_class_in, 'show_complete_tasks' => $show_complete_tasks_in]);
 
 // Добавляем к этому содержание шаппки и футера
-$layout_content = render_template ('templates/layout.php', ['projects' => $projects_in, 'categories' => $categories_in, 'content' => $page_content, 'title' => 'Дела в порядке!']);
+$layout_content = render_template ('templates/layout.php', ['projects' => $projects_in, 'categories' => $categories_in, 'add_class' => $add_class_in, 'content' => $page_content, 'title' => 'Дела в порядке!']);
 
-// Выводим всю страницу целиком
+// Выводим всю страницу целиком (+ вывод формы)
 print $layout_content;
+print $form_content;
 ?>
