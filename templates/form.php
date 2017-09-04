@@ -4,11 +4,11 @@
 
   <h2 class="modal__heading">Добавление задачи</h2>
 
-  <form class="form" action="/../index.php" method="POST" enctype= "application/x-www-form-urlencoded">
+  <form class="form" action="/../index.php" method="POST" enctype="multipart/form-data">
     <div class="form__row">
-      <label class="form__label" for="name">Название <sup>*</sup></label>
+      <label class="form__label" for="task">Название <sup>*</sup></label>
 
-      <input class="form__input" type="text" name="name" id="task" value="" placeholder="Введите название">
+      <input class="form__input" type="text" name="task" id="task" value="" placeholder="Введите название">
     </div>
 
     <div class="form__row">

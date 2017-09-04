@@ -80,26 +80,19 @@ if (isset($_GET["add"])) {
         $add_class_in = '';
 };
 
-// Функция для обработки запросиов POST
+if (isset($_FILES['preview'])) {
+    $file_name = $_FILES['preview']['name'];
+    $file_path = __DIR__ . '/uploads/';
+    $file_url = '/uploads/' . $file_name;
+    move_uploaded_file($_FILES['preview']['tmp_name'], $file_path . $file_name);
+};
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
-    if (isset($_FILES['preview'])) {
-        $file_name = $_FILES['preview']['task_image'];
-        $file_path = __DIR__ ;
-        $file_url = __DIR__ . $file_name;
-        $new_task = $_POST;
-        unset($new_task["send"]);
-        unset($new_task["preview"]);
-        $new_task ["closed"] = false;
-        array_push ($projects_in, [$new_task]);
-        var_dump ($projects_in);
-        } else {
-            $new_task = $_POST;
-            unset($new_task["send"]);
-            unset($new_task["preview"]);
-            $new_task ["closed"] = false;
-            array_push ($projects_in, [$new_task]);
-            var_dump ($projects_in);
+// Обработка запросов POST
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $new_task = $_POST;
+    $new_task ["closed"] = false;
+    array_push ($projects_in, $new_task);
+
 };
 
 // Собираем значения основного контекта страницы
