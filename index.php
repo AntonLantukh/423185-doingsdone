@@ -96,7 +96,6 @@ function project_check ($categories_in) {
     }
 };
 
-
 // Функция для отображения проектов в соответствии с идентификатором
 function project_count ($categories, $value) {
     $id_in = (int)$_GET["id"];
