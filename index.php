@@ -62,7 +62,7 @@ foreach ($projects_in as $key => $value) {
         $category_tasks[] = $value;
     }
 };
-
+var_dump($category_tasks);
 // Подключаем функцию-обработчик, где также хранятся другие функции
 require_once ('functions.php');
 
