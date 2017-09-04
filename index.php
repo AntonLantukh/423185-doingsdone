@@ -48,75 +48,26 @@ $projects_in = [
     ],
 ];
 
-// показывать или нет выполненные задачи
-$show_complete_tasks_in = rand(0, 1);
+// Проверка корректности параметра запроса id
+if (isset($_GET['id']) && !array_key_exists (intval($_GET[id]), $categories_in)) {
+    header ("HTTP/1.1 404 Not Found");
+}
 
-// устанавливаем часовой пояс в Московское время
-date_default_timezone_set('Europe/Moscow');
+// Задаем массив для каждой категории задач
+$category_id = intval($_GET['id']);
+$category_tasks = [];
 
-// Функция для расчета количества дней до дедлайна
-function is_deadline_overdue ($deadline) {
-    if (empty ($deadline)) {
-        return (false);
-    } else {
-        $current_ts = strtotime('now midnight');
-        $task_deadline_ts = strtotime($deadline);
-        $days_until_deadline = floor (($task_deadline_ts - $current_ts) / 86400);
-
-        if ($days_until_deadline <= 0) {
-          return (true);
-        } else {
-            return (false);
-        }
+foreach ($projects_in as $key => $value) {
+    if ($categories_in[$category_id] == 'Все' || $categories_in[$category_id] == $value['project']) {
+        $category_tasks[] = $value;
     }
-};
-
-// Функция для подсчета количества задач под каждой категорией
-function task_count ($tasks_array, $project_name) {
-    $cnt = 0;
-    if ($project_name == "Все") {
-        $cnt = count ($tasks_array);
-    } else {
-        foreach ($tasks_array as $key => $value) {
-            if ($project_name == $value["project"]) {
-                $cnt++;
-            }
-        }
-    }
-    return ($cnt);
-};
-
-// Функця проверки корректности параметра запроса id
-function project_check ($categories_in) {
-    if (isset($_GET["id"])) {
-        $id_in = (int)$_GET["id"];
-            if (!array_key_exists ($id_in, $categories_in)) {
-                header ("HTTP/1.1 404 Not Found");
-            }
-    }
-};
-
-// Функция для отображения проектов в соответствии с идентификатором
-function project_count ($categories, $value) {
-    $id_in = (int)$_GET["id"];
-        if ($id_in == 0) {
-            return(1);
-        }
-        elseif ($categories[$id_in] == $value) {
-            return (1);
-        } else {
-            return (0);
-        }
 };
 
 // Подключаем функцию-обработчик, где также хранятся другие функции
 require_once ('functions.php');
 
-// Подключаем функцию проверки корректности параметра запроса id
-project_check ($categories_in);
-
 // Собираем значения основного контекта страницы
-$page_content = render_template ('templates/index.php', ['id' => $id_in, 'projects' => $projects_in, 'categories' => $categories_in, 'show_complete_tasks' => $show_complete_tasks_in]);
+$page_content = render_template ('templates/index.php', ['id' => $id_in, 'projects' => $category_tasks, 'categories' => $categories_in, 'show_complete_tasks' => $show_complete_tasks_in]);
 
 // Добавляем к этому содержание шаппки и футера
 $layout_content = render_template ('templates/layout.php', ['projects' => $projects_in, 'categories' => $categories_in, 'content' => $page_content, 'title' => 'Дела в порядке!']);
