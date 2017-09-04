@@ -43,11 +43,6 @@
     <table class="tasks">
 
             <?php foreach ($projects as $key => $value): ?>
-                
-            <?php if (!parameter_check ($categories, $value["project"])) {
-                continue;
-            }
-            ?>
 
             <?php if (!$value["closed"] || $show_complete_tasks == 1) : ?> <!-- Учитываем условие показа по чекбоксу -->
 
