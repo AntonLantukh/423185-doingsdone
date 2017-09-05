@@ -48,11 +48,26 @@ $projects_in = [
     ],
 ];
 
+// Проверка корректности параметра запроса id
+if (isset($_GET['id']) && !array_key_exists (intval($_GET[id]), $categories_in)) {
+    header ("HTTP/1.1 404 Not Found");
+}
+
+// Задаем массив для каждой категории задач
+$category_id = intval($_GET['id']);
+$category_tasks = [];
+
+foreach ($projects_in as $key => $value) {
+    if ($categories_in[$category_id] == 'Все' || $categories_in[$category_id] == $value['project']) {
+        $category_tasks[] = $value;
+    }
+};
+
 // Подключаем функцию-обработчик, где также хранятся другие функции
 require_once ('functions.php');
 
 // Собираем значения основного контекта страницы
-$page_content = render_template ('templates/index.php', ['projects' => $projects_in, 'categories' => $categories, 'show_complete_tasks' => $show_complete_tasks_in]);
+$page_content = render_template ('templates/index.php', ['id' => $id_in, 'projects' => $category_tasks, 'categories' => $categories_in, 'show_complete_tasks' => $show_complete_tasks_in]);
 
 // Добавляем к этому содержание шаппки и футера
 $layout_content = render_template ('templates/layout.php', ['projects' => $projects_in, 'categories' => $categories_in, 'content' => $page_content, 'title' => 'Дела в порядке!']);

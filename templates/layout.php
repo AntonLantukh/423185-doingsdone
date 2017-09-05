@@ -46,13 +46,13 @@
                       $category_count = 0;
                       foreach ($categories as $key => $value):
                           $active_category = " ";
-                          if ($category_count == 0) {
+                          if ($category_count == $_GET["id"]) {
                               $active_category = "main-navigation__list-item--active";
                           }
                         ?>
 
                         <li class="main-navigation__list-item <?php print $active_category ?>">
-                            <a class="main-navigation__list-item-link" href="#"><?php print (htmlspecialchars ($value)) ?></a>
+                            <a class="main-navigation__list-item-link" href="/index.php<?php print "?id=$key"?>"><?php print (htmlspecialchars ($value)) ?></a>
                             <span class="main-navigation__list-item-count"><?php print (task_count ($projects, $value)) ?></span>
                         </li>
                         <?php $category_count++ ?>
