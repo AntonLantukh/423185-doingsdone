@@ -7,22 +7,26 @@
   <form class="form" action="/../index.php" method="POST" enctype="multipart/form-data">
     <div class="form__row">
       <label class="form__label" for="task">Название <sup>*</sup></label>
-
-      <input class="form__input" type="text" name="task" id="task" value="" placeholder="Введите название">
+      <span><?php print $error_message ?></span>
+      <input class="form__input <?php print $error_input ?>" type="text" name="task" id="task" value="<?php print $task ?>" placeholder="Введите название"66>
     </div>
 
     <div class="form__row">
       <label class="form__label" for="project">Проект <sup>*</sup></label>
-
+      <span></span>
       <select class="form__input form__input--select" name="project" id="project">
         <option value="">Входящие</option>
+        <option value="">Учеба</option>
+        <option value="">Работа</option>
+        <option value="">Домашние дела</option>
+        <option value="">Авто</option>
       </select>
     </div>
 
     <div class="form__row">
       <label class="form__label" for="date">Дата выполнения <sup>*</sup></label>
-
-      <input class="form__input form__input--date" type="text" name="date_complete" id="date" value="" placeholder="Введите дату в формате ДД.ММ.ГГГГ">
+      <span><?php print $error_message ?></span>
+      <input class="form__input form__input--date <?php print $error_input ?>" type="text" name="date_complete" id="date" value="<?php print $date_complete ?>" placeholder="Введите дату в формате ДД.ММ.ГГГГ">
     </div>
 
     <div class="form__row">
