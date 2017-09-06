@@ -12,7 +12,7 @@
     </div>
 
     <div class="form__row">
-      <label class="form__label" for="project">Проект <sup>*</sup></label>
+      <label class="form__label" for="project">Проект<sup>*</sup></label>
       <span <?php print $error_span_project ?>><?php print $error_message_project ?></span>
       <select class="form__input form__input--select <?php print $error_input_project ?>" name="project" id="project" value='<?php print (htmlspecialchars($project_cat)) ?>'>
 
