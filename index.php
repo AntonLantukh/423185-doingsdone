@@ -82,43 +82,57 @@ $required = ['task', 'date_complete'];
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $task_in = $_POST['task'] ?? '';
+    $date_complete_in = $_POST['date_complete'] ?? '';
+    $project_in = $_POST['project'] ?? '';
     foreach ($_POST as $key => $value) {
         if (in_array($key, $required) && $value == '') {
             $errors[] = $key;
-            $error_input_in = 'form__input--error';
-            $error_message_in = 'Поле не должны быть пустым';
-            header('Location: /index.php?add=1');
+            $error_class_in = "form__error";
+            $error_message_in = "Поле заполнено неверно";
+            $error_input_in = "form__input--error";
+            $add_class_in = ' class ="overlay"';
+            $page_content = render_template ('templates/index.php', ['task' => $task_in, 'date_complete' => $date_complete_in, 'error_span' => $error_class_in, 'error_message' => $error_message_in, 'error_input' => $error_input_in, 'add_class' => $add_class_in, 'id' => $id_in, 'projects' => $category_tasks, 'categories' => $categories_in, 'show_complete_tasks' => $show_complete_tasks_in]);
+            $form_content_in = render_template ('templates/form_task.php', ['task' => $task_in, 'date_complete' => $date_complete_in, 'project_in' => $project, 'add_class' => $add_class_in, 'categories' => $categories_in,]);
+            $layout_content = render_template ('templates/layout.php', ['task' => $task_in, 'date_complete' => $date_complete_in, 'add_class' => $add_class_in, 'projects' => $category_tasks, 'categories' => $categories_in, 'form_content' => $form_content_in,  'content' => $page_content, 'title' => 'Дела в порядке!']);
+            print $layout_content;
         } else {
             $new_task = $_POST;
-            $new_task ["closed"] = false;
-            array_push ($projects_in, $new_task);
+            $new_task[closed] = false;
+            array_push($category_tasks, $new_task);
+            break;
         }
     }
 };
-var_dump ($_POST);
 
-//if (!count($errors)) {
+
+
+
+
+
+var_dump ($projects_in);
 
 // Данные для созхранения значений в форме
-$task = $_POST['task'] ?? '';
-$date_complete = $_POST['date_complete'] ?? '';
-$error_input_in = 'form__input--error' ?? '';
-$error_message_in = 'Поле не должны быть пустым' ?? '';
-$error_class_in = 'error-massage'
+$task_in = $_POST['task'] ?? '';
+$date_complete_in = $_POST['date_complete'] ?? '';
+
+//header('Location: /index.php?add=1');
+//if (!count($errors)) {
+
 
 // Проверка на добавление окна с новой задачей
 if (isset($_GET["add"])) {
     $add_class_in = ' class ="overlay"';
-    $form_content_in = render_template ('templates/form_task.php', ['add_class' => $add_class_in, 'error_message' => $error_message_in, 'error_input' => $error_input_in]);
+    $form_content_in = render_template ('templates/form_task.php', ['task' => $task_in, 'date_complete' => $date_complete_in, 'error_span' => $error_class_in, 'add_class' => $add_class_in, 'error_message' => $error_message_in, 'error_input' => $error_input_in, 'categories' => $categories_in,]);
     } else {
         $add_class_in = '';
 };
 
 // Собираем значения основного контекта страницы
-$page_content = render_template ('templates/index.php', ['error_message' => $error_message_in, 'error_input' => $error_input_in, 'add_class' => $add_class_in, 'id' => $id_in, 'projects' => $category_tasks, 'categories' => $categories_in, 'show_complete_tasks' => $show_complete_tasks_in]);
+$page_content = render_template ('templates/index.php', ['task' => $task_in, 'date_complete' => $date_complete_in, 'error_span' => $error_class_in, 'error_message' => $error_message_in, 'error_input' => $error_input_in, 'add_class' => $add_class_in, 'id' => $id_in, 'projects' => $category_tasks, 'categories' => $categories_in, 'show_complete_tasks' => $show_complete_tasks_in]);
 
 // Добавляем к этому содержание шаппки и футера
-$layout_content = render_template ('templates/layout.php', ['error_message' => $error_message_in, 'error_input' => $error_input_in, 'add_class' => $add_class_in, 'projects' => $category_tasks, 'categories' => $categories_in, 'form_content' => $form_content_in,  'content' => $page_content, 'title' => 'Дела в порядке!']);
+$layout_content = render_template ('templates/layout.php', ['task' => $task_in, 'date_complete' => $date_complete_in, 'error_span' => $error_class_in, 'error_message' => $error_message_in, 'error_input' => $error_input_in, 'add_class' => $add_class_in, 'projects' => $category_tasks, 'categories' => $categories_in, 'form_content' => $form_content_in,  'content' => $page_content, 'title' => 'Дела в порядке!']);
 
 // Выводим всю страницу целиком
 print $layout_content;
