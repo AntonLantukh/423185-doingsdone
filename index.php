@@ -68,13 +68,13 @@ require_once ('functions.php');
 
 // Обработка файлов
 if (isset($_FILES['preview'])) {
-            if ($_FILES['preview']['error'] == UPLOAD_ERR_OK) {
-                $file_name = $_FILES['preview']['name'];
-                $file_path = __DIR__ . '/';
-                $file_transfer = move_uploaded_file ($_FILES['preview']['tmp_name'], $file_path . $file_name);
-            } else {
-                $error = $_FILES['preview']['error'];
-            }
+    if ($_FILES['preview']['error'] == UPLOAD_ERR_OK) {
+        $file_name = $_FILES['preview']['name'];
+        $file_path = __DIR__ . '/';
+        $file_transfer = move_uploaded_file ($_FILES['preview']['tmp_name'], $file_path . $file_name);
+        } else {
+            $error = $_FILES['preview']['error'];
+        }
 };
 
 // Обработка запросов POST
@@ -99,9 +99,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $task_in = $_POST['task'];
         $date_complete_in = $_POST['date_complete'];
         $project_in = $_POST['project'];
-        $page_content = render_template ('templates/index.php', ['task_form' => $task_in, 'date_complete' => $date_complete_in, 'add_class' => $add_class_in, 'id' => $id_in, 'projects' => $category_tasks, 'categories' => $categories_in, 'show_complete_tasks' => $show_complete_tasks_in ]);
-        $form_content_in = render_template ('templates/form_task.php', ['error_span_project' => $error_invalid_span_project, 'error_message_project' => $error_invalid_message_project, 'error_input_project' => $error_invalid_input_project, 'error_span_task' => $error_invalid_span_task, 'error_message_task' => $error_invalid_message_task, 'error_input_task' => $error_invalid_input_task, 'error_span_date' => $error_invalid_span_date, 'error_message_date' => $error_invalid_message_date, 'error_input_date' => $error_invalid_input_date, 'task_form' => $task_in, 'date_complete' => $date_complete_in, 'project' => $project_in, 'add_class' => $add_class_in,        'categories' => $categories_in]);
-        $layout_content = render_template ('templates/layout.php', ['task_form' => $task_in, 'date_complete' => $date_complete_in, 'add_class' => $add_class_in, 'projects' => $category_tasks, 'categories' => $categories_in, 'form_content' => $form_content_in,  'content' => $page_content, 'title' => 'Дела в порядке!']);
+        $page_content = render_template ('templates/index.php', ['task_form' => $task_in, 'date_complete' => $date_complete_in, 'project_cat' => $project_in, 'add_class' => $add_class_in, 'id' => $id_in, 'projects' => $category_tasks, 'categories' => $categories_in, 'show_complete_tasks' => $show_complete_tasks_in ]);
+        $form_content_in = render_template ('templates/form_task.php', ['error_span_project' => $error_invalid_span_project, 'error_message_project' => $error_invalid_message_project, 'error_input_project' => $error_invalid_input_project, 'error_span_task' => $error_invalid_span_task, 'error_message_task' => $error_invalid_message_task, 'error_input_task' => $error_invalid_input_task, 'error_span_date' => $error_invalid_span_date, 'error_message_date' => $error_invalid_message_date, 'error_input_date' => $error_invalid_input_date, 'task_form' => $task_in, 'date_complete' => $date_complete_in, 'project_cat' => $project_in, 'add_class' => $add_class_in, 'categories' => $categories_in]);
+        $layout_content = render_template ('templates/layout.php', ['task_form' => $task_in, 'date_complete' => $date_complete_in, 'project_cat' => $project_in, 'add_class' => $add_class_in, 'projects' => $category_tasks, 'categories' => $categories_in, 'form_content' => $form_content_in,  'content' => $page_content, 'title' => 'Дела в порядке!']);
         print $layout_content;
     }
     if (!empty($_POST['date_complete']) && !empty($_POST['task']) && !empty($_POST['project'])) {
