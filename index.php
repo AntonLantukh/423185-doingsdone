@@ -78,47 +78,38 @@ if (isset($_FILES['preview'])) {
 };
 
 // Обработка запросов POST
-$required = ['task', 'date_complete'];
-$errors = [];
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $task_in = $_POST['task'] ?? '';
-    $date_complete_in = $_POST['date_complete'] ?? '';
-    $project_in = $_POST['project'] ?? '';
-    foreach ($_POST as $key => $value) {
-        if (in_array($key, $required) && $value == '') {
-            $errors[] = $key;
-            $error_class_in = "form__error";
-            $error_message_in = "Поле заполнено неверно";
-            $error_input_in = "form__input--error";
-            $add_class_in = ' class ="overlay"';
-            $page_content = render_template ('templates/index.php', ['task' => $task_in, 'date_complete' => $date_complete_in, 'error_span' => $error_class_in, 'error_message' => $error_message_in, 'error_input' => $error_input_in, 'add_class' => $add_class_in, 'id' => $id_in, 'projects' => $category_tasks, 'categories' => $categories_in, 'show_complete_tasks' => $show_complete_tasks_in]);
-            $form_content_in = render_template ('templates/form_task.php', ['task' => $task_in, 'date_complete' => $date_complete_in, 'project_in' => $project, 'add_class' => $add_class_in, 'categories' => $categories_in,]);
-            $layout_content = render_template ('templates/layout.php', ['task' => $task_in, 'date_complete' => $date_complete_in, 'add_class' => $add_class_in, 'projects' => $category_tasks, 'categories' => $categories_in, 'form_content' => $form_content_in,  'content' => $page_content, 'title' => 'Дела в порядке!']);
-            print $layout_content;
-        } else {
-            $new_task = $_POST;
-            $new_task[closed] = false;
-            array_push($category_tasks, $new_task);
-            break;
-        }
+    if (empty($_POST['task'])) {
+        $error_invalid_span_task = 'class = "error-massage"';
+        $error_invalid_message_task = "Поле заполнено неверно";
+        $error_invalid_input_task = 'form__input--error';
+    }
+    if (empty($_POST['date_complete'])) {
+        $error_invalid_span_date = ' class = "error-massage"';
+        $error_invalid_message_date = "Поле заполнено неверно";
+        $error_invalid_input_date = 'form__input--error';
+    }
+    if (empty($_POST['project'])) {
+        $error_invalid_span_project = ' class = "error-massage"';
+        $error_invalid_message_project = "Поле заполнено неверно";
+        $error_invalid_input_project = 'form__input--error';
+    }
+    if (empty($_POST['date_complete']) || empty($_POST['task']) || empty($_POST['project'])) {
+        $add_class_in = ' class ="overlay"';
+        $task_in = $_POST['task'];
+        $date_complete_in = $_POST['date_complete'];
+        $project_in = $_POST['project'];
+        $page_content = render_template ('templates/index.php', ['task_form' => $task_in, 'date_complete' => $date_complete_in, 'add_class' => $add_class_in, 'id' => $id_in, 'projects' => $category_tasks, 'categories' => $categories_in, 'show_complete_tasks' => $show_complete_tasks_in ]);
+        $form_content_in = render_template ('templates/form_task.php', ['error_span_project' => $error_invalid_span_project, 'error_message_project' => $error_invalid_message_project, 'error_input_project' => $error_invalid_input_project, 'error_span_task' => $error_invalid_span_task, 'error_message_task' => $error_invalid_message_task, 'error_input_task' => $error_invalid_input_task, 'error_span_date' => $error_invalid_span_date, 'error_message_date' => $error_invalid_message_date, 'error_input_date' => $error_invalid_input_date, 'task_form' => $task_in, 'date_complete' => $date_complete_in, 'project' => $project_in, 'add_class' => $add_class_in,        'categories' => $categories_in]);
+        $layout_content = render_template ('templates/layout.php', ['task_form' => $task_in, 'date_complete' => $date_complete_in, 'add_class' => $add_class_in, 'projects' => $category_tasks, 'categories' => $categories_in, 'form_content' => $form_content_in,  'content' => $page_content, 'title' => 'Дела в порядке!']);
+        print $layout_content;
+    }
+    if (!empty($_POST['date_complete']) && !empty($_POST['task']) && !empty($_POST['project'])) {
+        $new_task = $_POST;
+        $new_task[closed] = false;
+        array_push($category_tasks, $new_task);
     }
 };
-
-
-
-
-
-
-var_dump ($projects_in);
-
-// Данные для созхранения значений в форме
-$task_in = $_POST['task'] ?? '';
-$date_complete_in = $_POST['date_complete'] ?? '';
-
-//header('Location: /index.php?add=1');
-//if (!count($errors)) {
-
 
 // Проверка на добавление окна с новой задачей
 if (isset($_GET["add"])) {
