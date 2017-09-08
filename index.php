@@ -110,7 +110,6 @@ foreach ($projects_in as $key => $value) {
         $category_tasks[] = $value;
     }
 };
-var_dump($projects_in);
 
 // Собираем значения основного контекта страницы
 $page_content = render_template ('templates/index.php', ['id' => $id_in, 'projects' => $category_tasks, 'categories' => $categories_in, 'show_complete_tasks' => $show_complete_tasks_in]);
