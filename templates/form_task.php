@@ -23,7 +23,7 @@
 
         <?php foreach ($categories as $key => $value) : ?>
         <?php if ($value != 'Все' ) : ?>
-            <option><?=$value?></option>
+            <option value="<?=$value?>" <?=$_POST['project'] == $value ? 'selected' : ''?>><?=$value?></option>
         <?php endif ; ?>
         <?php endforeach ; ?>
 
