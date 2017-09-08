@@ -11,7 +11,7 @@
     <form class="form" class="" action="/../index.php" method="POST" enctype="application/x-www-form-urlencoded">
       <div class="form__row">
         <label class="form__label" for="email">E-mail <sup>*</sup></label>
-        <span class='error-massage'><?=in_array('password', $errors_form) ? $default_error_text : ''?></span>
+        <span class='error-massage'><?=in_array('email', $errors_form) ? $default_error_text : ''?></span>
         <input class="form__input <?=in_array('email', $errors_form) ? $error_class : ''?>" type="text" name="email" id="email" value="<?=htmlspecialchars($_POST['email'])?>" placeholder="Введите e-mail">
 
         <p class="form__message"><?=in_array('login_verify', $errors_form) ? 'Неверный логин' : ''?></p>
