@@ -47,6 +47,12 @@ $projects_in = [
       "closed" => false,
     ],
 ];
+// Определяем массив логин-пароль
+$users_in = [
+    'ignat.v@gmail.com' => 'ug0GdVMi',
+    'kitty_93@li.ru' => 'daecNazD',
+    'warrior07@mail.ru' => 'oixb3aL8'
+];
 
 // Подключаем функцию-обработчик, где также хранятся другие функции
 require_once ('functions.php');
@@ -138,28 +144,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST["send"])) {
         }
     }
     if (!count($errors_login)) {
-        $email = $_POST['email'];
+        session_start();
+        $mail = $_POST['email'];
         $password = $_POST ['password'];
-        if ($user = search_user_by_email ($email, $users)) {
+        if ($user = search_user_by_email ($mail, $users)) {
             foreach ($users as $key => $value) {
-                if (password_verify($password, $value['password']) && $user == $value['email'] ) {
-                    $_SESSION['user'] = $user;
+                if ((password_verify($password, $value['password'])) && ($mail == $value['email'])) {
+                    $_SESSION['email'] = $user;
+                    goto spot;
                 } else {
-                    $errors_login[] = 'login_verify';
+                    $errors_login[] = 'password_verify';
                 }
             }
-            header('Location: index.php');
         } else {
-            $errors_login[] = 'pasword_verify';
+            $errors_login[] = 'login_verify';
         }
     }
 };
+spot:
 
 // Показываем окно авторизации при запросе
-if (isset($_GET["login"]) || !empty($errors_login)) {
+if (($_GET["login"]) || !empty($errors_login)) {
 	$guest_content = render_template('templates/guest_form.php',['errors_form' => $errors_login]);
     } else {
 	$guest_content = '';
+};
+
+// Закрываем сессию при нажатии на Выйти
+if ($_GET["login"] = 0) {
+    unset($_SESSION['email']);
+    header("Location: /index.php");;
 };
 
 // Фильтруем задачи под каждую категорию

@@ -19,7 +19,7 @@
     <div class="form__row">
       <label class="form__label" for="project">Проект<sup>*</sup></label>
       <span class='error-massage'><span class='form__error'><?=in_array('project', $errors_form) ? $default_error_text : ''?></span>
-      <select class="form__input form__input--select <?=in_array('project', $errors_form) ? $error_class : ''?>" name="project" id="project" value='<?php print (htmlspecialchars($_POST['project'])) ?>'>
+      <select class="form__input form__input--select <?=in_array('project', $errors_form) ? $error_class : ''?>" name="project" id="project">
 
         <?php foreach ($categories as $key => $value) : ?>
         <?php if ($value != 'Все' ) : ?>
