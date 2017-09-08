@@ -8,11 +8,12 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body class="<?=!empty($form_content) ? 'overlay' : ''?>">
+<body class="<?=!empty($form_content) || !empty($guest_content) ? 'overlay' : ''?>">
 <h1 class="visually-hidden">Дела в порядке</h1>
 
 <div class="page-wrapper">
     <div class="container container--with-sidebar">
+        <!-- Для авторизованных
         <header class="main-header">
             <a href="#">
                 <img src="img/logo.png" width="153" height="42" alt="Логитип Дела в порядке">
@@ -20,7 +21,7 @@
 
             <div class="main-header__side">
                 <a class="main-header__side-item button button--plus" href="/index.php<?php print "?add=1"?>">Добавить задачу</a>
-
+                <!-- Для авторизованных
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__image">
                         <img src="img/user-pic.jpg" width="40" height="40" alt="Пользователь">
@@ -32,6 +33,15 @@
                         <a href="#">Выйти</a>
                     </div>
                 </div>
+            -->
+                <!-- Для не авторизованных -->
+        <header class="main-header">
+            <a href="/">
+                <img src="../img/logo.png" width="153" height="42" alt="Логитип Дела в порядке">
+            </a>
+
+            <div class="main-header__side">
+                <a class="main-header__side-item button button--transparent" href="/index.php<?php print "?login=1"?>">Войти</a>
             </div>
         </header>
 
@@ -106,6 +116,7 @@
          </div>
      </div>
  </footer>
+    <?php print $guest_content ?>
     <?php print $form_content ?>
  <script type="text/javascript" src="js/script.js"></script>
 </body>

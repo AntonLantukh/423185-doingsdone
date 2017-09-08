@@ -49,7 +49,7 @@
     </div>
 
     <div class="form__row form__row--controls">
-      <input class="button" type="submit" name="send" value="Добавить">
+      <input class="button" type="submit" name="submit" value="Добавить">
     </div>
   </form>
 </div>

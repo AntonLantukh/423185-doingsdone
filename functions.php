@@ -1,4 +1,6 @@
 <?php
+// Подключаем массив с пользователями
+require_once ('userdata.php');
 
 // показывать или нет выполненные задачи
 $show_complete_tasks_in = rand(0, 1);
@@ -51,4 +53,15 @@ function render_template ($template_route, $template_array) {
             return ($html);
         }
 };
+
+function search_user_by_email($email, $users) {
+    $result = null;
+    foreach ($users as $user) {
+        if ($user['email'] == $email) {
+            $result = $user;
+            break;
+        }
+    }
+    return $result;
+}
 ?>
