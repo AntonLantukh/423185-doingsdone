@@ -141,13 +141,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST["send"])) {
         $email = $_POST['email'];
         $password = $_POST ['password'];
         if ($user = search_user_by_email ($email, $users)) {
-            $password_hash = password_hash($password, PASSWORD_DEFAULT);
             foreach ($users as $key => $value) {
-                if (password_verify($password_hash, $users['password']) && $user == $users['email'] ) {
+                if (password_verify($password, $value['password']) && $user == $value['email'] ) {
                     $_SESSION['user'] = $user;
+                } else {
+                    $errors_login[] = 'login_verify';
                 }
             }
             header('Location: index.php');
+        } else {
+            $errors_login[] = 'pasword_verify';
         }
     }
 };
