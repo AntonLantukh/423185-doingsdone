@@ -54,6 +54,7 @@ function render_template ($template_route, $template_array) {
         }
 };
 
+// Функция для поиска пользователя по e-mail
 function search_user_by_email($email, $users) {
     $result = null;
     foreach ($users as $user) {
