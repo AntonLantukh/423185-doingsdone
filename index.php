@@ -173,8 +173,18 @@ if (($_GET["login"]) || !empty($errors_login)) {
 // Закрываем сессию при нажатии на Выйти
 if ($_GET["login"] = 0) {
     unset($_SESSION['email']);
-    header("Location: /index.php");;
+    header("Location: /index.php");
 };
+
+// Проверяем параметр show_completed
+if ($_GET["show_completed"] == 1) {
+    $name = 'show_completed';
+    $value = $show_completed;
+    $expire = "Mon, 25-Jan-2027 10:00:00 GMT";
+    $path = '/';
+    setcookie($name, $value, $expire, $path);
+    header("Location: /index.php");
+}
 
 // Фильтруем задачи под каждую категорию
 foreach ($projects_in as $key => $value) {
