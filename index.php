@@ -182,8 +182,7 @@ if ($_GET["show_completed"] == 1) {
     $value = $show_completed;
     $expire = "Mon, 25-Jan-2027 10:00:00 GMT";
     $path = '/';
-    setcookie($name, $value, $expire, $path);
-    header("Location: /index.php");
+    setcookie($name, $value, strtotime($expire), $path);
 }
 
 // Фильтруем задачи под каждую категорию
