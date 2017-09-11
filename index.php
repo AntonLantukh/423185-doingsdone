@@ -152,6 +152,7 @@ foreach ($projects_in as $key => $value) {
         $category_tasks[] = $value;
     }
 };
+
 session_start();
 
 // Собираем значения основного контекта страницы
