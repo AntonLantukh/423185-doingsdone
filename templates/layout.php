@@ -1,4 +1,3 @@
-<?php if (isset($_SESSION['email'])): ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,6 +7,8 @@
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
+
+<?php if ($_SESSION['user']) : ?>
 
 <body class="<?=!empty($form_content) || !empty($guest_content) ? 'overlay' : ''?>">
 <h1 class="visually-hidden">Дела в порядке</h1>
@@ -20,7 +21,7 @@
             </a>
 
             <div class="main-header__side">
-                <a class="main-header__side-item button button--plus" href="/index.php<?php print "?add=1"?>">Добавить задачу</a>
+                <a class="main-header__side-item button button--plus" href="/index.php<?php print ("?add=1")?>">Добавить задачу</a>
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__image">
@@ -30,7 +31,7 @@
                     <div class="user-menu__data">
                         <p>Константин</p>
 
-                        <a href="/index.php<?php print "?login=0"?>">Выйти</a>
+                        <a href="/index.php<?php print "?login=2"?>">Выйти</a>
                     </div>
                 </div>
             </div>
@@ -62,55 +63,31 @@
                 </nav>
                 <a class="button button--transparent button--plus content__side-button" href="#">Добавить проект</a>
             </section>
+
+        <?php else : ?>
+
+            <body class="body-background <?=!empty($form_content) || !empty($guest_content) ? 'overlay' : ''?>"><!--class="overlay"-->
+              <h1 class="visually-hidden">Дела в порядке</h1>
+
+              <div class="page-wrapper">
+                <div class="container">
+                  <header class="main-header">
+                    <a href="#">
+                      <img src="../img/logo.png" width="153" height="42" alt="Логитип Дела в порядке">
+                    </a>
+                    <div class="main-header__side">
+                      <a class="main-header__side-item button button--transparent" href="/index.php<?php print "?login=1"?>">Войти</a>
+                    </div>
+                  </header>
+
+
+        <?php endif ; ?>
             <main class="content__main">
                 <?php print $content ?>
             </main>
          </div>
      </div>
  </div>
-<?php else: ?>
-    <!DOCTYPE html>
-    <html lang="en">
-
-    <head>
-      <meta charset="UTF-8">
-      <title><?php print $title ?></title>
-      <link rel="stylesheet" href="../css/normalize.css">
-      <link rel="stylesheet" href="../css/style.css">
-    </head>
-
-    <body class="body-background <?=!empty($form_content) || !empty($guest_content) ? 'overlay' : ''?>"><!--class="overlay"-->
-      <h1 class="visually-hidden">Дела в порядке</h1>
-
-      <div class="page-wrapper">
-        <div class="container">
-          <header class="main-header">
-            <a href="#">
-              <img src="../img/logo.png" width="153" height="42" alt="Логитип Дела в порядке">
-            </a>
-
-            <div class="main-header__side">
-              <a class="main-header__side-item button button--transparent" href="/index.php<?php print "?login=1"?>">Войти</a>
-            </div>
-          </header>
-
-          <div class="content">
-            <section class="welcome">
-              <h2 class="welcome__heading">«Дела в порядке»</h2>
-
-              <div class="welcome__text">
-                <p>«Дела в порядке» — это веб приложение для удобного ведения списка дел. Сервис помогает пользователям не забывать о предстоящих важных событиях и задачах.</p>
-
-                <p>После создания аккаунта, пользователь может начать вносить свои дела, деля их по проектам и указывая сроки.</p>
-              </div>
-
-              <a class="welcome__button button" href="#">Зарегистрироваться</a>
-            </section>
-          </div>
-        </div>
-      </div>
-
-<?php endif; ?>
  <footer class="main-footer">
      <div class="container">
          <div class="main-footer__copyright">
