@@ -14,7 +14,6 @@
         <span class='error-massage'><?=in_array('email', $errors_form) ? $default_error_text : ''?></span>
         <input class="form__input <?=in_array('email', $errors_form) ? $error_class : ''?>" type="text" name="email" id="email" value="<?=htmlspecialchars($_POST['email'])?>" placeholder="Введите e-mail">
 
-        <p class="form__message"><?=in_array('login_verify', $errors_form) ? 'Неверный логин' : ''?></p>
       </div>
 
       <div class="form__row">

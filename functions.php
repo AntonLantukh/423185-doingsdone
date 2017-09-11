@@ -49,6 +49,7 @@ function render_template ($template_route, $template_array) {
             ob_start();
             extract ($template_array);
             require_once($template_route);
+            session_start ();
             $html = ob_get_clean();
             return ($html);
         }
@@ -56,13 +57,19 @@ function render_template ($template_route, $template_array) {
 
 // Функция для поиска пользователя по e-mail
 function search_user_by_email($email, $users) {
-    $result = null;
+    $result = false;
     foreach ($users as $user) {
         if ($user['email'] == $email) {
-            $result = $user;
+            return($user);
             break;
         }
     }
-    return $result;
-}
+};
+
+
+//Функция для проверки email
+function validate_email($value) {
+    return filter_var ($value, FILTER_VALIDATE_EMAIL);
+};
+
 ?>
