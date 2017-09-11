@@ -146,16 +146,13 @@ if (($_GET["login"] == 1) || !empty($errors_login)) {
 	$guest_content = '';
 };
 
-// Проверяем параметр show_completed
-if ($_GET["show_completed"] == 1) {
+if (isset($_GET["show_completed"])) {
     $name = 'show_completed';
-    $value = 1;
+    $value = $_GET["show_completed"];
     $expire = "Mon, 25-Jan-2027 10:00:00 GMT";
     $path = '/';
     setcookie($name, $value, strtotime($expire), $path);
-    header("Location: /index.php");
 }
-
 
 // Фильтруем задачи под каждую категорию
 foreach ($projects_in as $key => $value) {
@@ -166,7 +163,7 @@ foreach ($projects_in as $key => $value) {
 session_start();
 
 // Собираем значения основного контекта страницы
-$page_content = render_template ('templates/index.php', ['id' => $id_in, 'projects' => $category_tasks, 'categories' => $categories_in, 'show_complete_tasks' => $show_complete_tasks_in]);
+$page_content = render_template ('templates/index.php', ['id' => $id_in, 'projects' => $category_tasks, 'categories' => $categories_in]);
 $guest_page = render_template ('templates/guest.php', ['id' => $id_in]);
 
 if ($_SESSION['user']) {

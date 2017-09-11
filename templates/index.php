@@ -31,8 +31,8 @@
         </div>
 
         <label class="checkbox">
-            <?php if ($show_complete_tasks == 1) : ?>
-              <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox">
+            <?php if ($_COOKIE['show_completed'] == 1) : ?>
+              <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox" checked>
               <span class="checkbox__text">Показывать выполненные</span>
             <?php else : ?>
               <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox">
@@ -44,7 +44,7 @@
 
             <?php foreach ($projects as $key => $value): ?>
 
-            <?php if (!$value["closed"] || $show_complete_tasks == 1) : ?> <!-- Учитываем условие показа по чекбоксу -->
+            <?php if (!$value["closed"] || $_COOKIE['show_completed'] == 1) : ?> <!-- Учитываем условие показа по чекбоксу -->
 
                <?php $extra_class = "";
                if ($value["closed"]) {  // Учитываем условие выполнения задачи
