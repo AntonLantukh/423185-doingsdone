@@ -1,4 +1,6 @@
 <?php
+// Подключаем массив с пользователями
+require_once ('userdata.php');
 
 // Функция для обрабтки шаблонов и подключения их в index.php
 function render_template ($template_route, $template_array) {
@@ -50,6 +52,21 @@ function task_count ($tasks_array, $project_name) {
         }
     }
     return ($cnt);
+};
+
+// Функция для поиска пользователя по e-mail
+function search_user_by_email($email, $users) {
+    foreach ($users as $user) {
+        if ($user['email'] == $email) {
+            return($user);
+            break;
+        }
+    }
+};
+
+//Функция для проверки email
+function validate_email($value) {
+    return filter_var ($value, FILTER_VALIDATE_EMAIL);
 };
 
 ?>
