@@ -2,6 +2,9 @@
 // Подключаем массив с пользователями
 require_once ('userdata.php');
 
+// показывать или нет выполненные задачи
+$show_complete_tasks_in = rand(0, 1);
+
 // устанавливаем часовой пояс в Московское время
 date_default_timezone_set('Europe/Moscow');
 
@@ -54,7 +57,6 @@ function render_template ($template_route, $template_array) {
 
 // Функция для поиска пользователя по e-mail
 function search_user_by_email($email, $users) {
-    $result = false;
     foreach ($users as $user) {
         if ($user['email'] == $email) {
             return($user);

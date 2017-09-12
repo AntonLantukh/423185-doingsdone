@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 // Определяем массив для проектов
 $categories_in = ["Все", "Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
 
@@ -52,8 +54,6 @@ $projects_in = [
 require_once ('functions.php');
 // Подключаем массив с пользователями
 require_once ('userdata.php');
-// Закрываем сессию при нажатии на Выйти
-require_once ('logout.php');
 
 // Проверка корректности параметра запроса id
 if (isset($_GET['id']) && !array_key_exists (intval($_GET[id]), $categories_in)) {
@@ -128,10 +128,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST["send"])) {
         }
     }
     if (empty($errors_login)) {
-        if ((search_user_by_email ($_POST['email'], $users)) && (password_verify($_POST['password'], (search_user_by_email ($_POST['email'], $users)['password'])))) {
-            $user = $_POST['email'];
-            session_start();
-            $_SESSION['user'] = $_POST['email'];
+        $user = search_user_by_email($_POST['email'], $users);
+        if (!empty($user) && password_verify($_POST['password'],$user['password'])) {
+            $_SESSION['user'] = $user;
             header("Location: /index.php");
             } else {
                 $errors_login[] = 'password_verify';
@@ -146,30 +145,21 @@ if (($_GET["login"] == 1) || !empty($errors_login)) {
 	$guest_content = '';
 };
 
-if (isset($_GET["show_completed"])) {
-    $name = 'show_completed';
-    $value = $_GET["show_completed"];
-    $expire = "Mon, 25-Jan-2027 10:00:00 GMT";
-    $path = '/';
-    setcookie($name, $value, strtotime($expire), $path);
-}
-
 // Фильтруем задачи под каждую категорию
 foreach ($projects_in as $key => $value) {
     if ($categories_in[$category_id] == 'Все' || $categories_in[$category_id] == $value['project']) {
         $category_tasks[] = $value;
     }
 };
-session_start();
 
 // Собираем значения основного контекта страницы
-$page_content = render_template ('templates/index.php', ['id' => $id_in, 'projects' => $category_tasks, 'categories' => $categories_in]);
-$guest_page = render_template ('templates/guest.php', ['id' => $id_in]);
-
 if ($_SESSION['user']) {
-    $layout_content = render_template ('templates/layout.php', ['user' => $user, 'guest_content' => $guest_content, 'form_content' => $form_content, 'projects' => $projects_in, 'categories' => $categories_in, 'content' => $page_content, 'title' => 'Дела в порядке!']);
+$page_content = render_template ('templates/index.php', ['id' => $id_in, 'projects' => $category_tasks, 'categories' => $categories_in, 'show_complete_tasks' => $show_complete_tasks_in]);
 } else {
-    $layout_content = render_template ('templates/layout.php', ['user' => $user, 'guest_content' => $guest_content, 'content' => $guest_page, 'title' => 'Дела в порядке!']);
+$page_content = render_template ('templates/guest.php', ['guest_content' => $guest_content]);
 }
+
+$layout_content = render_template ('templates/layout.php', ['user' => $user, 'guest_content' => $guest_content, 'form_content' => $form_content, 'projects' => $projects_in, 'categories' => $categories_in, 'content' => $page_content, 'title' => 'Дела в порядке!']);
+
 // Выводим всю страницу целиком
 print $layout_content;
