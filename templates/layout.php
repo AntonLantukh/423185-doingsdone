@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="user-menu__data">
-                        <p><?php print $_SESSION['user'] ?></p>
+                        <p><?php print (htmlspecialchars($_SESSION['user']['name'])) ?></p>
                         <a href="logout.php">Выйти</a>
                     </div>
                 </div>
@@ -70,7 +70,6 @@
                 <?php print $content ?>
             </main>
          </div>
-
      </div>
  </div>
  <footer class="main-footer">

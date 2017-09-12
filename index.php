@@ -130,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST["send"])) {
     if (empty($errors_login)) {
         $user = search_user_by_email($_POST['email'], $users);
         if (!empty($user) && password_verify($_POST['password'],$user['password'])) {
-            $_SESSION['user'] = $user['name'];
+            $_SESSION['user'] = $user;
             header("Location: /index.php");
             } else {
                 $errors_login[] = 'password_verify';
