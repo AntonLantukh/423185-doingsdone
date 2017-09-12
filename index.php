@@ -117,11 +117,8 @@ if (isset($_GET["add"]) || !empty($errors)) {
     } else {
 	$form_content = '';
 };
-
-
 // Обработка запросов POST для авторизации
 $errors_login = [];
-
 // Проверка на ошибки для формы авторизации
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST["send"])) {
     $fields = [
@@ -142,34 +139,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST["send"])) {
         if (!empty($user) && password_verify($_POST['password'],$user['password'])) {
             $_SESSION['user'] = $user;
             header("Location: /index.php");
-            } else {
+        } else {
                 $errors_login[] = 'password_verify';
-            }
+        }
     }
 };
-
 // Показываем окно авторизации при запросе
 if (($_GET["login"] == 1) || !empty($errors_login)) {
-	$guest_content = render_template('templates/guest_form.php',['errors_form' => $errors_login]);
-    } else {
-	$guest_content = '';
+    $guest_content = render_template('templates/guest_form.php',['errors_form' => $errors_login]);
+} else {
+    $guest_content = '';
 };
-
 // Фильтруем задачи под каждую категорию
 foreach ($projects_in as $key => $value) {
     if ($categories_in[$category_id] == 'Все' || $categories_in[$category_id] == $value['project']) {
         $category_tasks[] = $value;
     }
 };
-
 // Собираем значения основного контекта страницы
 if ($_SESSION['user']) {
-$page_content = render_template ('templates/index.php', ['id' => $id_in, 'projects' => $category_tasks, 'categories' => $categories_in, 'show_complete_tasks' => $show_complete_tasks_in]);
+    $page_content = render_template ('templates/index.php', ['id' => $id_in, 'projects' => $category_tasks, 'categories' => $categories_in, 'show_complete_tasks' => $show_complete_tasks_in]);
 } else {
-$page_content = render_template ('templates/guest.php', ['guest_content' => $guest_content]);
+    $page_content = render_template ('templates/guest.php', ['guest_content' => $guest_content]);
 }
-
 $layout_content = render_template ('templates/layout.php', ['user' => $user, 'guest_content' => $guest_content, 'form_content' => $form_content, 'projects' => $projects_in, 'categories' => $categories_in, 'content' => $page_content, 'title' => 'Дела в порядке!']);
-
 // Выводим всю страницу целиком
 print $layout_content;
