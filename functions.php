@@ -3,7 +3,7 @@
 require_once ('userdata.php');
 
 // показывать или нет выполненные задачи
-$show_complete_tasks_in = rand(0, 1);
+$show_complete_tasks_in = $_COOKIE["show_completed"];
 
 // устанавливаем часовой пояс в Московское время
 date_default_timezone_set('Europe/Moscow');

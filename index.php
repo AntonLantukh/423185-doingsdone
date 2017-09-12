@@ -50,6 +50,16 @@ $projects_in = [
     ],
 ];
 
+// Проверяем параметр show_completed
+if (isset($_GET["show_completed"])) {
+    $name = 'show_completed';
+    $value = $_GET["show_completed"];
+    $expire = "Mon, 25-Jan-2027 10:00:00 GMT";
+    $path = '/';
+    setcookie($name, $value, strtotime($expire), $path);
+    header("Location: /index.php");
+}
+
 // Подключаем функцию-обработчик, где также хранятся другие функции
 require_once ('functions.php');
 // Подключаем массив с пользователями
