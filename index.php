@@ -54,9 +54,8 @@ $projects_in = [
 if (isset($_GET["show_completed"])) {
     $name = 'show_completed';
     $value = $_GET["show_completed"];
-    $expire = "Mon, 25-Jan-2027 10:00:00 GMT";
     $path = '/';
-    setcookie($name, $value, strtotime($expire), $path);
+    setcookie($name, $value, strtotime("+1 year"), $path);
     header("Location: /index.php");
 }
 
