@@ -18,6 +18,7 @@ password CHAR(32),
 contacts TEXT,
 project_id INT NOT NULL,
 FOREIGN KEY (project_id) REFERENCES project(id),
+FOREIGN KEY (task_id) REFERENCES task(id),
 PRIMARY KEY (id)
 )
 
