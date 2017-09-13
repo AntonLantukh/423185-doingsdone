@@ -50,6 +50,16 @@ $projects_in = [
     ],
 ];
 
+
+// Проверяем параметр show_completed
+if (isset($_GET["show_completed"])) {
+    $name = 'show_completed';
+    $value = $_GET["show_completed"];
+    $path = '/';
+    setcookie($name, $value, strtotime("+1 year"), $path);
+    header("Location: /index.php");
+}
+
 // Подключаем функцию-обработчик, где также хранятся другие функции
 require_once ('functions.php');
 // Подключаем массив с пользователями
@@ -107,8 +117,6 @@ if (isset($_GET["add"]) || !empty($errors)) {
     } else {
 	$form_content = '';
 };
-
-
 // Обработка запросов POST для авторизации
 $errors_login = [];
 
@@ -144,14 +152,12 @@ if (($_GET["login"] == 1) || !empty($errors_login)) {
 } else {
     $guest_content = '';
 };
-
 // Фильтруем задачи под каждую категорию
 foreach ($projects_in as $key => $value) {
     if ($categories_in[$category_id] == 'Все' || $categories_in[$category_id] == $value['project']) {
         $category_tasks[] = $value;
     }
 };
-
 // Собираем значения основного контекта страницы
 if ($_SESSION['user']) {
     $page_content = render_template ('templates/index.php', ['id' => $id_in, 'projects' => $category_tasks, 'categories' => $categories_in, 'show_complete_tasks' => $show_complete_tasks_in]);

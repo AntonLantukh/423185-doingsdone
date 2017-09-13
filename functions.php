@@ -17,7 +17,7 @@ function render_template ($template_route, $template_array) {
 };
 
 // показывать или нет выполненные задачи
-$show_complete_tasks_in = rand(0, 1);
+$show_complete_tasks_in = $_COOKIE['show_completed'];
 
 // устанавливаем часовой пояс в Московское время
 date_default_timezone_set('Europe/Moscow');
@@ -30,7 +30,6 @@ function is_deadline_overdue ($deadline) {
         $current_ts = strtotime('now midnight');
         $task_deadline_ts = strtotime($deadline);
         $days_until_deadline = floor (($task_deadline_ts - $current_ts) / 86400);
-
         if ($days_until_deadline <= 0) {
           return (true);
         } else {
@@ -38,7 +37,6 @@ function is_deadline_overdue ($deadline) {
         }
     }
 };
-
 // Функция для подсчета количества задач под каждой категорией
 function task_count ($tasks_array, $project_name) {
     $cnt = 0;
